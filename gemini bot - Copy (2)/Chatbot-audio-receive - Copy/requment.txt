@@ -1,0 +1,71 @@
+Flask
+streamlit
+google-genai
+requests
+pandas
+numpy
+
+whatsapp_mes_rece.py
+        ↓
+Audio_repy_analy.py
+        ↓
+ai.py
+        ↓
+Template_send.py
+        ↓
+User yes/no
+        ↓
+whatsapp_mes_rece.py
+        ↓
+ai.py
+        ↓
+insert.py
+        ↓
+ERPNext Issue
+        ↓
+whatsapp_send_text.py
+
+Project Flow With File Names
+
+
+whatsapp_mes_rece.py
+Receives WhatsApp messages through the Flask webhook.
+
+Audio_repy_analy.py
+Downloads the audio file and saves it in the audio_file folder.
+
+ai.py
+Sends the audio to Gemini and extracts ticket details.
+
+Template_send.py
+Sends the ticket preview to WhatsApp for confirmation.
+
+ai.py
+Temporarily stores the ticket details in pending_tickets.
+
+whatsapp_mes_rece.py
+Receives the user’s yes or no reply.
+
+ai.py
+Creates or cancels the ticket according to the user’s reply.
+
+insert.py
+Creates the Issue in ERPNext and uploads the audio file.
+
+whatsapp_send_text.py
+Sends the final success or error message to the user.
+
+security.py
+Reads API keys and URLs from the .env file.
+
+number.json
+Stores registered WhatsApp numbers and names.
+
+web.py
+Provides the Streamlit admin panel to add, search, and delete numbers.
+
+main.py
+Fetches customer information from ERPNext.
+
+log.py
+Saves message and reply logs.
