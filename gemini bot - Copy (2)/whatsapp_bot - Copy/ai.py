@@ -25,8 +25,14 @@ def name(from_number):
         except KeyError:
             return "Unknown"
 
-
-
+def meation():
+        json_path = os.path.join(os.path.dirname(__file__), "number.json")
+        with open(json_path, "r") as f:
+            data = json.load(f)  
+            regading_person = []
+            for i in data:
+                regading_person.append(data[i])
+        return regading_person
 # ---------------------------------------------------------
 # System Instruction
 # ---------------------------------------------------------
@@ -45,7 +51,7 @@ Return ONLY JSON:
 Rules:
 - Extract only what user says. Never guess. Missing = "".
 - subject = short issue/request.
-- regarding allowed: HR, IT, director, Siddharth, Raja bhaiya, Subhas Sir, "".
+- regarding allowed: {meation()}.
 - HR = employee/salary/leave/attendance. IT = ERPNext/computer/network/server/software.
 - Person only if clearly related.
 - remainder_date = YYYY-MM-DD only if reminder is requested.

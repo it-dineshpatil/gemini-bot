@@ -10,7 +10,7 @@ st.title("Number Map")
 
 # Add New Number
 with st.expander("Add New Number"):
-    with st.form("add_number_form", clear_on_submit=True):
+    with st.form("add_number_form"):
         col1, col2 = st.columns(2)
         with col1:
             phone = st.text_input("Enter Phone Number", value=91, placeholder="918140021166")
