@@ -1,7 +1,8 @@
 import requests
 import json
 import os
-
+from notication import regarding_pers
+from notication import ticket_details_noti
 from whatsapp_send_text import whatsapp_send_text
 from security import (
     erpnext_local,
@@ -11,6 +12,13 @@ from security import (
 target_doctype = "Issue"
 base_url = erpnext_local  # Assuming this is the base URL for your ERPNext instance
 
+def meation_person_whatsapp(name):
+    json_path = os.path.join(os.path.dirname(__file__), "number.json")
+    with open(json_path,"r") as f:
+        data = json.load(f)
+    for number, username in data.items():
+        if username == name:
+            return number
 def name(form_number):
     json_path = os.path.join(os.path.dirname(__file__), "number.json")
 
@@ -55,6 +63,7 @@ def create_supplier_challan(data=None,sender_name=None,from_number=None, audio_p
         doc = response_data.get("data", {})
 
         docname = doc.get("name")
+        
         if not docname:
             print("Document name not found")
             return whatsapp_send_text(
@@ -90,8 +99,6 @@ def create_supplier_challan(data=None,sender_name=None,from_number=None, audio_p
                 file_data = file_response.json()
                 # print("File Upload Response:", file_data)
 
-#Line Code Not Need THis Only  custom_file_attach Audio File  link frappe atual stock in  "File Manager" doctype in first after i am link attach field in "attachment" field in "Issue" doctype in erpnext
-
                 uploaded_file = file_data.get("message", {})
 
                 file_url = uploaded_file.get("file_url")
@@ -115,22 +122,14 @@ def create_supplier_challan(data=None,sender_name=None,from_number=None, audio_p
                     #     update_response.json()
                     # )
 
-        # -----------------------------------
-        # 6. WhatsApp response
-        # -----------------------------------
         
-        return whatsapp_send_text(
-            from_number,
-f"""
-✅ Ticket #{docname}
+        if data.get("custom_issue_regarding"):
+            meationwhatsapp = meation_person_whatsapp(data.get('custom_issue_regarding'))
+            #whatsapp Message Send This Funcation
+            regarding_pers(meationwhatsapp, sender_name, docname, data)
+            
+        return ticket_details_noti(from_number, docname, data)
 
-📌Subject: {data.get('subject', 'N/A')}
-📝Regarding: {data.get('custom_issue_regarding', 'N/A')}
-📅Remainder Date: {data.get('custom_remainder_date', 'N/A')}
-⭐Priority: {data.get('priority', 'N/A')}
-
-🔗 Keep this ID for tracking
-""")
     except Exception as e:
 
         print(f"ERPNext API Insertion error: {e}")
@@ -139,8 +138,6 @@ f"""
             from_number,
             "Error while creating ticket. Please try again later."
         )
-
-
 
 # create_supplier_challan(
 #     data={
@@ -153,3 +150,5 @@ f"""
 #     from_number="919327228987",
 #     audio_path=r"C:\gemini bot\Chatbot-audio-receive - Copy\whatsapp_bot - Copy\audio_file\919327228987.mp3"
 # )
+
+
