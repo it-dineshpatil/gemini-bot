@@ -41,3 +41,15 @@ def insert(phone, name):
 
 # respon = insert("8140021166", "Dinesh")
 # print(respon[0])
+def remove(name):
+    try:
+        response = requests.delete(
+            f"{base_url}/api/resource/{target_doctype}/{name}",
+            headers=get_headers(),
+            timeout=30,
+        )
+
+        return response.status_code, response.text
+
+    except requests.RequestException as e:
+        return e

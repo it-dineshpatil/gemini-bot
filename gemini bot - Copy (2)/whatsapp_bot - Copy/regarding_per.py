@@ -45,4 +45,4 @@ def meation_person_whatsapp(name):
         if username == name:
             return number
         
-print(meation_person_whatsapp("dinesh"))
+# print(meation_person_whatsapp("dinesh"))
