@@ -2,6 +2,7 @@ from main import fetch_customers
 from whatsapp_send_text import whatsapp_send_text
 from Whatsapp_file_send import whatsapp_send_file
 from Jobwork_order_idashboard import execute_and_export_report
+from text_ticket_anal import ask
 # from Template_send import Template_send
 def about_person(from_number,message_text):
     message = (
@@ -47,6 +48,8 @@ def requment_analysis(from_number, message_text):
     
     elif "sales" in message_text.lower():
         return sales_report(from_number, message_text)
+    elif "tick" in message_text.lower():
+        return ask(from_number,message_text)
     else:
         return "unknown"
     whatsapp_send_text(from_number,)
