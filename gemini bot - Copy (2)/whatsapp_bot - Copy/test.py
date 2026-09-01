@@ -8,5 +8,5 @@ def meation():
             for i in data:
                 regading_person.append(data[i])
         return regading_person
-    
-print(meation())
+ar = meation()    
+print(len(ar))

@@ -137,4 +137,4 @@ def confirm_ticket(from_number: str, response: str):
     )
 
 
-ask("i am software update meation siddharth sir  mujher sunday ko remainder dena", "918140021166","dinesh")
+# ask("i am software update meation siddharth sir  mujher sunday ko remainder dena", "918140021166","dinesh")

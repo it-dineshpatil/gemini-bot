@@ -19,6 +19,7 @@ def meation_person_whatsapp(name):
     for number, username in data.items():
         if username == name:
             return number
+        
 def name(form_number):
     json_path = os.path.join(os.path.dirname(__file__), "number.json")
 
@@ -36,14 +37,13 @@ def get_headers():
         "Content-Type": "application/json",
     }
 
-
 def create_supplier_challan(data=None,sender_name=None,from_number=None, audio_path=None):
     try:
-        data = data or {}
+        # data = data or {}
         payload = {
             "doctype": target_doctype,
             "subject": data.get("subject", ""),
-            "custom_regarding": data.get("custom_issue_regarding","hr"),
+            "issue_type": data.get("custom_issue_regarding","hr"),
             "custom_remainder_date": data.get("remainder_date", ""),
             "priority": data.get("priority", ""),
             "custom_raised": sender_name,
@@ -60,9 +60,11 @@ def create_supplier_challan(data=None,sender_name=None,from_number=None, audio_p
 
         response_data = response.json()
         # print("Create Response:", response_data)
+        
         doc = response_data.get("data", {})
 
         docname = doc.get("name")
+        # doc_remainder_date = doc.get("remainder_date")
         
         if not docname:
             print("Document name not found")
@@ -127,6 +129,7 @@ def create_supplier_challan(data=None,sender_name=None,from_number=None, audio_p
             meationwhatsapp = meation_person_whatsapp(data.get('custom_issue_regarding'))
             #whatsapp Message Send This Funcation
             regarding_pers(meationwhatsapp, sender_name, docname, data)
+            
             
         return ticket_details_noti(from_number, docname, data)
 

@@ -79,6 +79,7 @@ def ask(audio_path: str, from_number: str ,sender_name: str) -> str:
         )
 
         # Wait for audio file to finish processing
+        whatsapp_send_text(from_number, "Please wait while we process your audio message and extract ticket details...")
         while audio_file.state.name == "PROCESSING":
             time.sleep(1)
             audio_file = client.files.get(name=audio_file.name)
