@@ -18,8 +18,8 @@ def ticket_details_noti(from_number, docname, data):
     f"✅ *Ticket #{docname}*\n\n"
     f"📌 *Subject:* {data.get('subject', 'N/A')}\n"
     f"📝 *Regarding:* {data.get('custom_issue_regarding', 'N/A')}\n"
-    f"📅 *Reminder Date:* {data.get("remainder_date", "")}\n"
+    f"📅 *Reminder Date:* {data.get('custom_remainder_date')}\n"
     f"⭐ *Priority:* {data.get('priority', 'N/A')}\n\n"
-        f"🔗 _Keep this ID for tracking._"
-        )
+    f"🔗 _Keep this ID for tracking._"
+    )
     return whatsapp_send_text(from_number,message)

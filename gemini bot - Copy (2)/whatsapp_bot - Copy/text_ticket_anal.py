@@ -9,7 +9,7 @@ from insert import create_supplier_challan
 from security import gemini
 from datetime import date
 from whatsapp_send_text import whatsapp_send_text   
-# from Template_send import chatbot
+from Template_send import chatbot
 today_str = date.today().strftime("%Y-%m-%d")
 
 client = genai.Client(api_key=gemini)
@@ -33,9 +33,7 @@ def meation():
             for i in data:
                 regading_person.append(data[i])
         return regading_person
-# ---------------------------------------------------------
-# System Instruction
-# ---------------------------------------------------------
+
 SYSTEM_INSTRUCTION = f"""
 ERPNext ticket extractor.
 Today: {today_str}
@@ -62,7 +60,7 @@ Rules:
 - No extra keys, Markdown, explanation, null, or N/A.
 """
 
-def ask(user_text: str, from_number: str ,sender_name: str) -> str:
+def ask(user_text: str, from_number) -> str:
 #Upload an audio file and ask Gemini to analyze it and create a ticket.
   
 
@@ -71,8 +69,6 @@ def ask(user_text: str, from_number: str ,sender_name: str) -> str:
         return f"This number is not registered in the database: {from_number}"
 
     try:
-
-
         response = client.models.generate_content(
             model="gemini-3.6-flash",
             contents=[
@@ -95,21 +91,23 @@ def ask(user_text: str, from_number: str ,sender_name: str) -> str:
             raw_text = "\n".join(lines).strip()
 
         ticket_data = json.loads(raw_text)
+        
         print(ticket_data)
-        print(from_number, ticket_data.get('subject', ''), ticket_data.get('custom_issue_regarding', ''), ticket_data.get('remainder_date', ''), ticket_data.get('priority', ''))
-        # whatsapp_send_text(from_number, f"Ticket details extracted:\nSubject: {ticket_data.get('subject', '')}\nRegarding: {ticket_data.get('custom_issue_regarding', '')}\nRemainder Date: {ticket_data.get('remainder_date', '')}\nPriority: {ticket_data.get('priority', '')}\n\nPlease confirm if you want to create the ticket. Reply with 'Yes' to create or 'No' to cancel.")
-        # chatbot(from_number, ticket_data.get('subject', ''), ticket_data.get('custom_issue_regarding', ''), ticket_data.get('remainder_date', ''), ticket_data.get('priority', ''))
+        
+
         global session_number
         session_number = from_number
-        pending_tickets[from_number] = {
-            "ticket_data": ticket_data,
-            "sender_name": sender_name,
-            "audio_path": user_text,
-        }
-        return None
-
-    except Exception as e:
-        return f"Gemini API Error: {e}"
+        ticket_data = json.loads(raw_text)
+        # whatsapp_send_text(from_number, f"Ticket details extracted:\nSubject: {ticket_data.get('subject', '')}\nRegarding: {ticket_data.get('custom_issue_regarding', '')}\nRemainder Date: {ticket_data.get('remainder_date', '')}\nPriority: {ticket_data.get('priority', '')}\n\nPlease confirm if you want to create the ticket. Reply with 'Yes' to create or 'No' to cancel.")
+        # chatbot(from_number, ticket_data.get('subject', ''), ticket_data.get('custom_issue_regarding', ''), ticket_data.get('remainder_date', ''), ticket_data.get('priority', ''))
+        return ticket_data, name(from_number), from_number
+    
+    except (json.JSONDecodeError, ValueError, TypeError) as error:
+        print(f"Failed to process ticket data: {error}")
+        return whatsapp_send_text(
+            from_number,
+            "Unable to process the ticket details. Please send the message again."
+        )
 
 
 def confirm_ticket(from_number: str, response: str):
@@ -120,8 +118,8 @@ def confirm_ticket(from_number: str, response: str):
         return create_supplier_challan(
             pending_ticket["ticket_data"],
             pending_ticket["sender_name"],
-            from_number,
-            pending_ticket["audio_path"],
+            from_number
+
         )
 
     if response.lower() == "no":
@@ -135,6 +133,3 @@ def confirm_ticket(from_number: str, response: str):
         from_number,
         "Your session expired. Please send the correct voice message to create a ticket."
     )
-
-
-# ask("i am software update meation siddharth sir  mujher sunday ko remainder dena", "918140021166","dinesh")

@@ -2,16 +2,16 @@ import json
 import os
 
 
-# # def number_check(from_number):
-# #     json_path = os.path.join(os.path.dirname(__file__), "number.json")
-# #     with open(json_path, "r") as f:
-# #         data = json.load(f)
-# #         if from_number in data:
-# #             return True
-# #         else:
-# #             return False
+def number_check(from_number):
+    json_path = os.path.join(os.path.dirname(__file__), "number.json")
+    with open(json_path, "r") as f:
+        data = json.load(f)
+        if from_number in data:
+            return True
+        else:
+            return False
         
-   
+print(number_check("919327228985"))
 # # def meation():
 # #         json_path = os.path.join(os.path.dirname(__file__), "number.json")
 # #         with open(json_path, "r") as f:

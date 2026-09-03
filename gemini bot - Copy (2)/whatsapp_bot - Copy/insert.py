@@ -39,7 +39,7 @@ def get_headers():
 
 def create_supplier_challan(data=None,sender_name=None,from_number=None, audio_path=None):
     try:
-        # data = data or {}
+        data = data or {}
         payload = {
             "doctype": target_doctype,
             "subject": data.get("subject", ""),
@@ -129,9 +129,10 @@ def create_supplier_challan(data=None,sender_name=None,from_number=None, audio_p
             meationwhatsapp = meation_person_whatsapp(data.get('custom_issue_regarding'))
             #whatsapp Message Send This Funcation
             regarding_pers(meationwhatsapp, sender_name, docname, data)
+            # remainder_date = data.get("custom_remainder_date", "")
             
             
-        return ticket_details_noti(from_number, docname, data)
+        return ticket_details_noti(from_number, docname, data, )
 
     except Exception as e:
 

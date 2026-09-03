@@ -10,7 +10,7 @@ with open(json_path, "r") as f:
     
     
 st.title("Number Map")
-
+st.write("This page allows you to manage the mapping of phone numbers to names. You can add new numbers, delete existing ones, and search through the list.")
 # Add New Number
 with st.expander("Add New Number"):
     with st.form("add_number_form"):
