@@ -62,6 +62,14 @@ Rules:
 - No extra keys, Markdown, explanation, null, or N/A.
 """
 
+def ask_text(user_text: str, from_number: str) -> str:
+    # Validate user text
+    if not user_text:
+        return "Please provide a message."
+
+    # Call the existing ask_text function
+    return ask_text(user_text, from_number)
+
 def ask(audio_path: str, from_number: str ,sender_name: str) -> str:
 #Upload an audio file and ask Gemini to analyze it and create a ticket.
   

@@ -7,8 +7,8 @@ from datetime import datetime
 from  Audio_repy_analy import audio_reply
 from ai import confirm_ticket
 from regarding_per import number_check
-from text_ticket_anal import ask
-
+from ai_chat_ana import ask_chat_ana
+from insert import create_supplier_challan
 app = Flask(__name__)
 
 
@@ -16,18 +16,6 @@ app = Flask(__name__)
 def home():
     return "Webhook server running"
 
-@app.route("/webhook", methods=["POST"])
-def webhook():
-
-    data = request.get_json(silent=True) or {}
-    print(data)
-    response = number_check(data.get("from_number"))
-    print(f"Number check result: {response}")
-    return jsonify({
-        "status": "received",
-        "result": response
-    }), 200
-    
 @app.route("/number_check", methods=["POST"])
 def number_check_endpoint():
     data = request.get_json(silent=True) or {}
@@ -44,7 +32,7 @@ def number_check_endpoint():
 def ticket_text_endpoint():
     data = request.get_json(silent=True) or {}
     print(data.get("subject"))
-    response = ask(user_text=data.get("subject"), from_number=data.get("from_number"))
+    response = ask_chat_ana(user_text=data.get("subject"), from_number=data.get("from_number"))
     print(f"Ticket text analysis result: {response}")
     return jsonify({
         "status": "received",
@@ -63,6 +51,19 @@ def voice_ticket_endpoint():
         "status": "received",
         "result": response
     }), 200
+    
+@app.route("/insert_ticket", methods=["POST"])
+def insert_ticket_endpoint():
+
+    data = request.get_json(silent=True) or {}
+    print(data)
+    create_supplier_challan(data=data,from_number=data.get("from_number"))
+    print(f"Ticket inserted: {data.get('subject')}")
+    return jsonify({
+        "status": "received",
+        "result": "Ticket inserted successfully"
+    }), 200   
+    
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
     # app.run(host="0.0.0.0", port=5000, debug=True)

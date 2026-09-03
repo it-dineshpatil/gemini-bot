@@ -4,6 +4,7 @@ import os
 from notication import regarding_pers
 from notication import ticket_details_noti
 from whatsapp_send_text import whatsapp_send_text
+
 from security import (
     erpnext_local,
     erpnext_local_key,
@@ -12,6 +13,11 @@ from security import (
 target_doctype = "Issue"
 base_url = erpnext_local  # Assuming this is the base URL for your ERPNext instance
 
+def audio_reply(from_number, url):
+    sender_name = name(from_number)
+    if sender_name == "Unknown":
+        print(f"Number {from_number} Not Registered ,  Please Contact IT Team.")
+        return None
 def meation_person_whatsapp(name):
     json_path = os.path.join(os.path.dirname(__file__), "number.json")
     with open(json_path,"r") as f:
@@ -20,13 +26,20 @@ def meation_person_whatsapp(name):
         if username == name:
             return number
         
-def name(form_number):
+def name(from_number):
     json_path = os.path.join(os.path.dirname(__file__), "number.json")
+    with open(json_path, "r") as f:
+        data = json.load(f)
+        try:
+            return(data[from_number])
+        except KeyError:
+            return "Unknown"
+
 
     with open(json_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    return data.get(form_number, "Unknown")
+    return data.get(from_number, "Unknown")
 
 # print(name("919327228987") or "Unknown")
 
@@ -37,7 +50,8 @@ def get_headers():
         "Content-Type": "application/json",
     }
 
-def create_supplier_challan(data=None,sender_name=None,from_number=None, audio_path=None):
+def create_supplier_challan(data=None,from_number=None, audio_path=None):
+    print(f"Creating ticket for number: {from_number} with data: {data}")
     try:
         data = data or {}
         payload = {
@@ -46,7 +60,7 @@ def create_supplier_challan(data=None,sender_name=None,from_number=None, audio_p
             "issue_type": data.get("custom_issue_regarding","hr"),
             "custom_remainder_date": data.get("remainder_date", ""),
             "priority": data.get("priority", ""),
-            "custom_raised": sender_name,
+            "custom_raised": name(from_number),
             "custom_whatsapp_number": from_number,
         }
 
@@ -128,7 +142,7 @@ def create_supplier_challan(data=None,sender_name=None,from_number=None, audio_p
         if data.get("custom_issue_regarding"):
             meationwhatsapp = meation_person_whatsapp(data.get('custom_issue_regarding'))
             #whatsapp Message Send This Funcation
-            regarding_pers(meationwhatsapp, sender_name, docname, data)
+            regarding_pers(meationwhatsapp, name(from_number), docname, data)
             # remainder_date = data.get("custom_remainder_date", "")
             
             

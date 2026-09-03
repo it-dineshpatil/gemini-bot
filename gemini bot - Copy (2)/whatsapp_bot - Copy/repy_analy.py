@@ -2,7 +2,7 @@ from main import fetch_customers
 from whatsapp_send_text import whatsapp_send_text
 from Whatsapp_file_send import whatsapp_send_file
 from Jobwork_order_idashboard import execute_and_export_report
-from text_ticket_anal import ask
+
 # from Template_send import Template_send
 def about_person(from_number,message_text):
     message = (
