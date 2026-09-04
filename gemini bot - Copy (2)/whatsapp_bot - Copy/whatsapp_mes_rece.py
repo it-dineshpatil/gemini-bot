@@ -4,7 +4,7 @@ from log import log
 import pandas as pd
 from datetime import datetime
 from  Audio_repy_analy import audio_reply
-from ai import confirm_ticket
+# from ai import confirm_ticket
 app = Flask(__name__)
 
 @app.route("/", methods=["GET"])
@@ -27,8 +27,8 @@ def webhook():
     media_type = (media.get("type") or "").lower()
     audio_url = media.get("url") or ""
 
-    if userResponse.lower() in ["yes", "no"]:
-        return confirm_ticket(from_number, userResponse)
+    # if userResponse.lower() in ["yes", "no"]:
+    #     return confirm_ticket(from_number, userResponse)
 
     if content_type == "media" and media_type == "audio" and audio_url:
         print(f"  Audio URL  : {audio_url}")

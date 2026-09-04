@@ -5,7 +5,7 @@ from log import log
 import pandas as pd
 from datetime import datetime
 from  Audio_repy_analy import audio_reply
-from ai import confirm_ticket
+# from ai import confirm_ticket
 from regarding_per import number_check
 from ai_chat_ana import ask_chat_ana
 from insert import create_supplier_challan
@@ -40,13 +40,11 @@ def ticket_text_endpoint():
     }), 200
     
     
-@app.route("/webhook", methods=["POST"])
+@app.route("/voice_ticket", methods=["POST"])
 def voice_ticket_endpoint():
-
     data = request.get_json(silent=True) or {}
-    print(data)
-    response = number_check(data.get("from_number"))
-    print(f"Number check result: {response}")
+    response = audio_reply(url=data.get("url"), from_number=data.get("from_number"))
+    print(response)
     return jsonify({
         "status": "received",
         "result": response
@@ -65,8 +63,8 @@ def insert_ticket_endpoint():
     }), 200   
     
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
-    # app.run(host="0.0.0.0", port=5000, debug=True)
+    # app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True)
 
 
 

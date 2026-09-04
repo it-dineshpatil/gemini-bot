@@ -11,7 +11,7 @@ from security import gemini
 from datetime import date
 from whatsapp_send_text import whatsapp_send_text   
 from Template_send import chatbot
-today_str = date.today().strftime("%Y-%m-%d")
+today= date.today().strftime("%d-%m-%y")
 
 client = genai.Client(api_key=gemini)
 pending_tickets = {}
@@ -37,7 +37,7 @@ def meation():
 
 SYSTEM_INSTRUCTION = f"""
 ERPNext ticket extractor.
-Today: {today_str}
+Today: {today}
 
 Return ONLY JSON:
 {{
@@ -49,12 +49,12 @@ Return ONLY JSON:
 
 Rules:
 - Extract only what user says. Never guess. Missing = "".
-- subject = short issue/request.
+- subject =   user report analysis issue/request.
 - regarding allowed: {meation()}.
 - HR = employee/salary/leave/attendance. IT = ERPNext/computer/network/server/software.
 - Person only if clearly related.
 - remainder_date = YYYY-MM-DD only if reminder is requested.
-  today={today_str}, tomorrow=+1 day, day after tomorrow=+2 days, after N days=+N days.
+  today={today}, tomorrow=+1 day, day after tomorrow=+2 days, after N days=+N days.
 - priority: High=critical/business stopped/server/security/payment/production blocked;
   Medium=normal issue; Low=minor/non-urgent request.
 - Audio may be Hindi/English/Gujarati/Marathi/Hinglish.
@@ -105,5 +105,5 @@ def ask_chat_ana(user_text: str, from_number) -> str:
             from_number,
             "Unable to process the ticket details. Please send the message again."
         )
-# result = ask("Hello, I have an issue with my ERPNext account. i am remainder 2 days meation it DInesh ", "918140021166")
+# result = ask_chat_ana("Hello, I have an issue with my ERPNext account. i am remainder 2 days meation it DInesh ", "918140021166")
 # print(result)

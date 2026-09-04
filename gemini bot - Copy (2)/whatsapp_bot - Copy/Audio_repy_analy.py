@@ -23,7 +23,7 @@ def name(from_number):
 
 
 
-def audio_reply(from_number, url):
+def audio_reply(url: str, from_number: str) -> str:
     sender_name = name(from_number)
     if sender_name == "Unknown":
         print(f"Number {from_number} Not Registered ,  Please Contact IT Team.")
@@ -52,7 +52,8 @@ def audio_reply(from_number, url):
         print(f"Audio file saved to: {file_path}")
        
         print(f"Processing audio for number: {file_path}")
-        return ask(audio_path=file_path, from_number=from_number,sender_name=sender_name)
+        response_ai = ask(audio_path=file_path, from_number=from_number,sender_name=sender_name)
+        return response_ai
         # whatsapp_send_text(from_number, "Audio file received and saved successfully.")
 
     except Exception as e:
