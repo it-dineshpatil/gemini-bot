@@ -19,7 +19,7 @@ def home():
 @app.route("/number_check", methods=["POST"])
 def number_check_endpoint():
     data = request.get_json(silent=True) or {}
-    print(data)
+    
     response = number_check(data.get("from_number"))
     print(f"Number check result: {response}")
     return jsonify({
@@ -38,11 +38,13 @@ def ticket_text_endpoint():
         "status": "received",
         "result": response
     }),200
+    
 @app.route("/voice_ticket", methods=["POST"])
 def voice_ticket_endpoint():
     data = request.get_json(silent=True) or {}
+    print(f"Received voice ticket data: {data}")
     response = audio_reply(url=data.get("url"), from_number=data.get("from_number"))
-    print(response)
+    print(f"Voice ticket analysis result: {response}")
     return jsonify({
         "status": "received",
         "result": response

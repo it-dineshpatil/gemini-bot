@@ -15,6 +15,7 @@ def home():
 def webhook():
 
     data = request.get_json(silent=True) or {}
+    print(f"Received data: {data}")
 
     from_number = data.get("from") or data.get("sender") or ""
     content = data.get("content") or {}
