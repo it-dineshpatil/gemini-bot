@@ -62,3 +62,36 @@ def chatbot(to_number, subject, regarding, remainder_date, priority):
 #     ],
 #     "tags": "ABC,DEF"
 # }
+
+def assigned_a_ticket(to_number, subject, regarding, remainder_date, priority):
+    url = "https://api.11za.in/apis/template/sendTemplate"
+
+    payload = {
+        "authToken": (env.get("WHATSAPP_TOKEN")),
+        "sendto": clean_mobile(to_number),
+        "originWebsite": "https://gokulprint.com/",
+        "templateName": "chatbot",
+        "language": "en",
+        "data": [
+            subject,
+            regarding,
+            remainder_date,
+            priority
+        ],
+
+    }
+
+    response = requests.post(
+        url,
+        headers={"Content-Type": "application/json"},
+        json=payload,
+        timeout=30
+    )
+
+    print(response.status_code)
+    try:
+        print(response.json())
+        return response.json()
+    except ValueError:
+        print(response.text)
+        return response.text

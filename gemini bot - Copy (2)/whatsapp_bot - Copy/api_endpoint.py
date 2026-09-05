@@ -37,9 +37,7 @@ def ticket_text_endpoint():
     return jsonify({
         "status": "received",
         "result": response
-    }), 200
-    
-    
+    }),200
 @app.route("/voice_ticket", methods=["POST"])
 def voice_ticket_endpoint():
     data = request.get_json(silent=True) or {}

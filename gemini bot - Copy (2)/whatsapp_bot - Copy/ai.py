@@ -60,6 +60,8 @@ Rules:
 - Audio may be Hindi/English/Gujarati/Marathi/Hinglish.
 - No extra keys, Markdown, explanation, null, or N/A.
 """
+
+
 def ask(audio_path: str, from_number: str ,sender_name: str) -> str:
 #Upload an audio file and ask Gemini to analyze it and create a ticket.
   
@@ -107,6 +109,9 @@ def ask(audio_path: str, from_number: str ,sender_name: str) -> str:
             raw_text = "\n".join(lines).strip()
 
         ticket_data = json.loads(raw_text)
+        # if ticket_data.get("subject") ==none and ticket_data.get("custom_issue_regarding") == None:
+        #     whatsapp_send_text(from_number, "We could not extract any ticket details from your audio message. Please try again or contact support.")
+        #     return None
         return ticket_data
 
     except Exception as e:

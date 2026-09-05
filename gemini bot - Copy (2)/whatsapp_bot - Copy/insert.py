@@ -14,10 +14,11 @@ target_doctype = "Issue"
 base_url = erpnext_local  # Assuming this is the base URL for your ERPNext instance
 
 def audio_reply(from_number, url):
-    sender_name = name(from_number)
+    sender_name = create_by(from_number)
     if sender_name == "Unknown":
         print(f"Number {from_number} Not Registered ,  Please Contact IT Team.")
         return None
+    
 def meation_person_whatsapp(name):
     json_path = os.path.join(os.path.dirname(__file__), "number.json")
     with open(json_path,"r") as f:
@@ -26,22 +27,13 @@ def meation_person_whatsapp(name):
         if username == name:
             return number
         
-def name(from_number):
-    json_path = os.path.join(os.path.dirname(__file__), "number.json")
-    with open(json_path, "r") as f:
-        data = json.load(f)
-        try:
-            return(data[from_number])
-        except KeyError:
-            return "Unknown"
+def create_by(from_number):
+        json_path = os.path.join(os.path.dirname(__file__), "number.json")
+        with open(json_path, "r") as f:
+            data = json.load(f)  
+            return data.get(from_number)
 
-
-    with open(json_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-
-    return data.get(from_number, "Unknown")
-
-# print(name("919327228987") or "Unknown")
+# print(create_by("919327228987")
 
 
 def get_headers():
@@ -53,14 +45,14 @@ def get_headers():
 def create_supplier_challan(data=None,from_number=None, audio_path=None):
     print(f"Creating ticket for number: {from_number} with data: {data}")
     try:
-        data = data or {}
+        # data = data or {}
         payload = {
             "doctype": target_doctype,
             "subject": data.get("subject", ""),
-            "issue_type": data.get("custom_issue_regarding","hr"),
+            "issue_type": [data.get("custom_issue_regarding","")],
             "custom_remainder_date": data.get("remainder_date", ""),
             "priority": data.get("priority", ""),
-            "custom_raised": name(from_number),
+            "custom_raised": create_by(from_number),
             "custom_whatsapp_number": from_number,
         }
 
@@ -76,8 +68,11 @@ def create_supplier_challan(data=None,from_number=None, audio_path=None):
         # print("Create Response:", response_data)
         
         doc = response_data.get("data", {})
+        # print(doc)
+
 
         docname = doc.get("name")
+        created_by = doc.get("issue_type")
         # doc_remainder_date = doc.get("remainder_date")
         
         if not docname:
@@ -142,11 +137,13 @@ def create_supplier_challan(data=None,from_number=None, audio_path=None):
         if data.get("custom_issue_regarding"):
             meationwhatsapp = meation_person_whatsapp(data.get('custom_issue_regarding'))
             #whatsapp Message Send This Funcation
-            regarding_pers(meationwhatsapp, name(from_number), docname, data)
+            # whatsapp_send_text(from_number, f"Ticket Created Successfully. Ticket ID: #{entry_data}")
+            
+            regarding_pers(meationwhatsapp=meationwhatsapp,sender_name=created_by, docname=docname, data=data)
             # remainder_date = data.get("custom_remainder_date", "")
             
             
-        return ticket_details_noti(from_number, docname, data, )
+        return ticket_details_noti(from_number, docname, data)
 
     except Exception as e:
 
@@ -160,10 +157,10 @@ def create_supplier_challan(data=None,from_number=None, audio_path=None):
 # create_supplier_challan(
 #     data={
 #         "subject": "Test Audio Ticket",
-#         "custom_issue_regarding": "HR",
+#         "custom_issue_regarding": "Dinesh It",
 #         "remainder_date": "",
 #         "priority": "Medium"
-#     },
+#     },)
 #     sender_name=name("919327228987"),
 #     from_number="919327228987",
 #     audio_path=r"C:\gemini bot\Chatbot-audio-receive - Copy\whatsapp_bot - Copy\audio_file\919327228987.mp3"
