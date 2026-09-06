@@ -43,6 +43,7 @@ def ticket_text_endpoint():
 def voice_ticket_endpoint():
     data = request.get_json(silent=True) or {}
     print(f"Received voice ticket data: {data}")
+    #audio_path file  audio download and save and call ai.py file in ask funcation
     response = audio_reply(url=data.get("url"), from_number=data.get("from_number"))
     print(f"Voice ticket analysis result: {response}")
     return jsonify({
@@ -52,10 +53,10 @@ def voice_ticket_endpoint():
     
 @app.route("/insert_ticket", methods=["POST"])
 def insert_ticket_endpoint():
-
     data = request.get_json(silent=True) or {}
-    print(data)
+    print(f"Received insert ticket data: {data}")
     create_supplier_challan(data=data,from_number=data.get("from_number"))
+
     print(f"Ticket inserted: {data.get('subject')}")
     return jsonify({
         "status": "received",

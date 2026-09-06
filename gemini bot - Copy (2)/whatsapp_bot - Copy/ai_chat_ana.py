@@ -88,13 +88,10 @@ def ask_chat_ana(user_text: str, from_number) -> str:
             raw_text = "\n".join(lines).strip()
 
         ticket_data = json.loads(raw_text)
-        
-        # print(ticket_data)
-        
+ # Ensure from_number is passed to the ticket data
+        ticket_data['from_number'] = from_number  # Add the from_number to the ticket data
 
-        global session_number
-        session_number = from_number
-        ticket_data = json.loads(raw_text)
+        print(f"Extracted ticket data: {ticket_data}")
         # whatsapp_send_text(from_number, f"Ticket details extracted:\nSubject: {ticket_data.get('subject', '')}\nRegarding: {ticket_data.get('custom_issue_regarding', '')}\nRemainder Date: {ticket_data.get('remainder_date', '')}\nPriority: {ticket_data.get('priority', '')}\n\nPlease confirm if you want to create the ticket. Reply with 'Yes' to create or 'No' to cancel.")
         # chatbot(from_number, ticket_data.get('subject', ''), ticket_data.get('custom_issue_regarding', ''), ticket_data.get('remainder_date', ''), ticket_data.get('priority', ''))
         return ticket_data

@@ -60,3 +60,4 @@ def audio_reply(url: str, from_number: str) -> str:
         print(f"Error saving audio: {e}")
         whatsapp_send_text(from_number, "Some Technical issue, Please contact IT  team")
         return None
+# audio_reply("https://11zamedia.11za.in/gokultexprintsprivatelimited/Receive/AUD/AUD-36634944555899795.ogg", "918140021166")

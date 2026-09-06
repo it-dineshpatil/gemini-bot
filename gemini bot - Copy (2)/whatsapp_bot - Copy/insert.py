@@ -10,7 +10,7 @@ from security import (
     erpnext_local_key,
     erpnext_local_secret
 )
-print(f"ERPNext Local: {erpnext_local}, Key: {erpnext_local_key}, Secret: {erpnext_local_secret}")
+
 target_doctype = "Issue"
 base_url = erpnext_local  # Assuming this is the base URL for your ERPNext instance
 
@@ -40,10 +40,10 @@ def get_headers():
         "Content-Type": "application/json",
     }
 
-def create_supplier_challan(data=None,from_number=None, audio_path=None):
-    whatsapp_send_text(from_number, "Creating ticket in ERPNext. Please wait...")
+def create_supplier_challan(data=None,from_number=None,audio_path:str=None):
+    whatsapp_send_text(from_number, f"Creating ticket in ERPNext. Please wait... {audio_path}")
     
-    # print(f"Creating ticket for number: {from_number} with data: {data} ,create_by(from_number)={create_by(from_number)}")
+    print(f"Creating ticket for number: {from_number} with data: {data} ,create_by(from_number)={create_by(from_number)}")
     try:
         # data = data or {}
         payload = {
@@ -82,8 +82,7 @@ def create_supplier_challan(data=None,from_number=None, audio_path=None):
                 from_number,
                 "Ticket creation failed. Please try again later."
             )
-
-        # print(f"Ticket Created: {docname}")
+        
         if audio_path:
             if not os.path.exists(audio_path):
                 print(f"File not found: {audio_path}")
