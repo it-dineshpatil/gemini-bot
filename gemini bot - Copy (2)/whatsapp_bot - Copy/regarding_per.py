@@ -11,7 +11,7 @@ def number_check(from_number):
         else:
             return False
         
-print(number_check("919327228985"))
+# print(number_check("919327228985"))
 # # def meation():
 # #         json_path = os.path.join(os.path.dirname(__file__), "number.json")
 # #         with open(json_path, "r") as f:

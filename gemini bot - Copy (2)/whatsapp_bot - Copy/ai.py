@@ -109,10 +109,10 @@ def ask(audio_path: str, from_number: str ,sender_name: str) -> str:
             raw_text = "\n".join(lines).strip()
 
         ticket_data = json.loads(raw_text)
-        print(f"Extracted ticket data: {ticket_data}")
-        # if ticket_data.get("subject") ==none and ticket_data.get("custom_issue_regarding") == None:
-        #     whatsapp_send_text(from_number, "We could not extract any ticket details from your audio message. Please try again or contact support.")
-        #     return None
+        # print(f"Extracted ticket data: {ticket_data}")
+        # # if ticket_data.get("subject") ==none and ticket_data.get("custom_issue_regarding") == None:
+        # #     whatsapp_send_text(from_number, "We could not extract any ticket details from your audio message. Please try again or contact support.")
+        # #     return None
         return ticket_data
 
     except Exception as e:

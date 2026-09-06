@@ -1,6 +1,6 @@
 from whatsapp_send_text import whatsapp_send_text
 # from regarding_per import create_by
-def regarding_pers(meationwhatsapp, sender_name : str, docname: str, data: dict):
+def regarding_pers(meationwhatsapp,  sender_name: str, docname: str, data: dict):
     message = (
         f"🎯 *You are assigned a Ticket*\n\n"
         f"👤 *Created By:* {sender_name}\n"
@@ -12,6 +12,7 @@ def regarding_pers(meationwhatsapp, sender_name : str, docname: str, data: dict)
         f"🔗 _Keep this ID for tracking._"
     )
     return whatsapp_send_text(meationwhatsapp, message)
+
 # regarding_pers("918140021166", "dinesh", "DdfdOdfds", {"subject": "Test Ticket"})
 
 def ticket_details_noti(from_number, docname, data):

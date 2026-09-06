@@ -10,6 +10,7 @@ from security import (
     erpnext_local_key,
     erpnext_local_secret
 )
+print(f"ERPNext Local: {erpnext_local}, Key: {erpnext_local_key}, Secret: {erpnext_local_secret}")
 target_doctype = "Issue"
 base_url = erpnext_local  # Assuming this is the base URL for your ERPNext instance
 
@@ -33,9 +34,6 @@ def create_by(from_number):
             data = json.load(f)  
             return data.get(from_number)
 
-# print(create_by("919327228987")
-
-
 def get_headers():
     return {
         "Authorization": f"token {erpnext_local_key}:{erpnext_local_secret}",
@@ -43,18 +41,21 @@ def get_headers():
     }
 
 def create_supplier_challan(data=None,from_number=None, audio_path=None):
-    print(f"Creating ticket for number: {from_number} with data: {data}")
+    whatsapp_send_text(from_number, "Creating ticket in ERPNext. Please wait...")
+    
+    # print(f"Creating ticket for number: {from_number} with data: {data} ,create_by(from_number)={create_by(from_number)}")
     try:
         # data = data or {}
         payload = {
-            "doctype": target_doctype,
+            # "doctype": target_doctype,
             "subject": data.get("subject", ""),
-            "issue_type": [data.get("custom_issue_regarding","")],
+            "issue_type": data.get("custom_issue_regarding",""),
             "custom_remainder_date": data.get("remainder_date", ""),
             "priority": data.get("priority", ""),
             "custom_raised": create_by(from_number),
             "custom_whatsapp_number": from_number,
         }
+        
 
         response = requests.post(
             f"{base_url}/api/resource/{target_doctype}",
@@ -72,7 +73,7 @@ def create_supplier_challan(data=None,from_number=None, audio_path=None):
 
 
         docname = doc.get("name")
-        created_by = doc.get("issue_type")
+        # created_by = doc.get("issue_type")
         # doc_remainder_date = doc.get("remainder_date")
         
         if not docname:
@@ -139,7 +140,7 @@ def create_supplier_challan(data=None,from_number=None, audio_path=None):
             #whatsapp Message Send This Funcation
             # whatsapp_send_text(from_number, f"Ticket Created Successfully. Ticket ID: #{entry_data}")
             
-            regarding_pers(meationwhatsapp=meationwhatsapp,sender_name=created_by, docname=docname, data=data)
+            regarding_pers(meationwhatsapp=meationwhatsapp,sender_name=create_by(from_number), docname=docname, data=data)
             # remainder_date = data.get("custom_remainder_date", "")
             
             
