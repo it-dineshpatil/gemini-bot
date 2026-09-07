@@ -5,11 +5,12 @@ import time
 from google import genai
 from numpy import number
 from google.genai import types
-from insert import create_supplier_challan
+# from insert import create_supplier_challan
 from security import gemini
 from datetime import date
 from whatsapp_send_text import whatsapp_send_text   
 from Template_send import chatbot
+from insert import create_supplier_challan
 today= date.today().strftime("%d-%m-%y")
 
 client = genai.Client(api_key=gemini)
@@ -110,7 +111,9 @@ def ask(audio_path: str, from_number: str ,sender_name: str) -> str:
 
         ticket_data = json.loads(raw_text)
         ticket_data["audio_path"] = audio_path  # Add the audio path to the ticket data
-        print(f"Extracted ticket data: {ticket_data}")
+        # create_supplier_challan(data=ticket_data, from_number=from_number, audio_path=audio_path)  # Call the function to create the ticket
+        
+        # print(f"Extracted ticket data: {ticket_data}")
         # # if ticket_data.get("subject") ==none and ticket_data.get("custom_issue_regarding") == None:
         # #     whatsapp_send_text(from_number, "We could not extract any ticket details from your audio message. Please try again or contact support.")
         # #     return None
