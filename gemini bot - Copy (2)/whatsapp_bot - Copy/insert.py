@@ -2,7 +2,7 @@ import requests
 import json
 import os
 from notication import regarding_pers
-from notication import ticket_details_noti
+from notication import ticket_details_noti ,regarding_pers_audio_with
 from whatsapp_send_text import whatsapp_send_text
 from attachments import attach_files
 
@@ -83,10 +83,15 @@ def create_supplier_challan(data=None,from_number=None,audio_path=None):
                 from_number,
                 "Ticket creation failed. Please try again later."
             )
-       
-        print(f"Attached audio file to ticket .............{docname}, file_path={file_path}, u")
-        print(attach_files(docname,audio_path))
-        regarding_pers(meation_person_whatsapp(data.get("custom_issue_regarding","")), create_by(from_number), docname, data)
+        if not audio_path:
+            regarding_pers(meation_person_whatsapp(data.get("custom_issue_regarding", "")),create_by(from_number),docname,data,)
+            
+            return ticket_details_noti(from_number, docname, data)
+            
+        url = attach_files(docname=docname, audio_path=file_path)
+        regarding_pers_audio_with(meation_person_whatsapp(data.get("custom_issue_regarding", "")),create_by(from_number),docname,data,url)
+        
+        print(f"Attached audio file to ticket .............{docname}, file_path={file_path}, url={url}")
         return ticket_details_noti(from_number, docname, data)
     except Exception as e:
 

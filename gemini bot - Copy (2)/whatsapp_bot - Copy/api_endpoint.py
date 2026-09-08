@@ -63,7 +63,11 @@ def voice_ticket_endpoint():
 def insert_ticket_endpoint():
     data = request.get_json(silent=True) or {}
     print(f"Received insert ticket data: {data}")
-    create_supplier_challan(data=data,from_number=data.get("from_number"))
+    create_supplier_challan(
+        data=data,
+        from_number=data.get("from_number"),
+        audio_path=data.get("audio_path"),
+    )
     log(datetime.now().strftime("%d-%m-%Y %H:%M:%S"), data.get("from_number"), data.get("userResponse"), f"Ticket inserted: {data.get('subject')}")
 
     print(f"Ticket inserted: {data.get('subject')}")
