@@ -38,9 +38,11 @@ def samesales(from_number):
             return "Ranjit Gupta"
         case "919974912625":
             return "Javed Mohd."
+        case "918140021166":
+            return "Bikash Behera"
         case _:
             return "None"
-        
+# print(samesales("918140021166"))       
 # USER RESPONSE ANALYSIS AND REPLY GENERATION
 def requment_analysis(from_number, message_text):
     if "job" in message_text.lower():
@@ -48,16 +50,16 @@ def requment_analysis(from_number, message_text):
     
     elif "sales" in message_text.lower():
         return sales_report(from_number, message_text)
-    elif "tick" in message_text.lower():
-        return ask(from_number,message_text)
     else:
         return "unknown"
     whatsapp_send_text(from_number,)
     
-def jobwork_report(from_number, message_text):
+def jobwork_report(from_number, message_text=None):
+        print(from_number)
         sales = samesales(from_number)
         if sales == "None":
-            return "🤔 Sorry, I couldn't identify you. Please contact support."
+            whatsapp_send_text(from_number,"🤔 Sorry, I couldn't identify you.  Only Salesman Allow..")
+            return "🤔 Sorry, I couldn't identify you.  Only Salesman Allow.."
         else:
             message = "📊 Jobwork Order Dashboard Report\n ⏳ Sending in progress...\n ✅ The report will be delivered within 1 minute."
             whatsapp_send_text(from_number,message)
