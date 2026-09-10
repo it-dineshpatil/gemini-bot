@@ -54,6 +54,7 @@ def create_supplier_challan(data=None,from_number=None,audio_path=None):
             "subject": data.get("subject", ""),
             "issue_type": data.get("custom_issue_regarding",""),
             "custom_remainder_date": data.get("remainder_date", ""),
+            "custom_regarding_whatsapp_number":meation_person_whatsapp(data.get("custom_issue_regarding","")),
             "priority": data.get("priority", ""),
             "custom_raised": create_by(from_number),
             "custom_whatsapp_number": from_number,
