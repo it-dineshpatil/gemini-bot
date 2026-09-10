@@ -28,8 +28,6 @@ def samesales(from_number):
             return "Dilip Singh"
         case "919737250002":
             return "Bikash Behera"
-        case "919327228987":
-            return "Bikash Behera"
         case "919792510910":
             return "Manoj Pandey"
         case "919974972625":

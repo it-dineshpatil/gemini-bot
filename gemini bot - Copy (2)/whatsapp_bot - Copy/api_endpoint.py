@@ -11,6 +11,7 @@ from regarding_per import number_check
 from ai_chat_ana import ask_chat_ana
 from insert import create_supplier_challan
 from  repy_analy import jobwork_report
+from ticket_fetch import ticket_fetch
 app = Flask(__name__)
 
 
@@ -89,7 +90,16 @@ def job_report_endpoint():
         "status": "received",
         "result": repy
     }), 200   
-    
+
+def ticket_fetch_endpoint():
+    data = request.get_json(silent=True) or {}
+    print(f"job_report Endpoint respone{data}")
+    repy = ticket_fetch(data.get("from_number"))
+    print(repy)
+    return jsonify({
+        "status": "received",
+        "result": repy
+    }), 200      
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
     # app.run(host="0.0.0.0", port=5000, debug=True)

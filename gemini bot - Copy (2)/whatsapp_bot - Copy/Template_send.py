@@ -63,20 +63,23 @@ def chatbot(to_number, subject, regarding, remainder_date, priority):
 #     "tags": "ABC,DEF"
 # }
 
-def assigned_a_ticket(to_number, subject, regarding, remainder_date, priority):
+def assigned_a_ticket(meationwhatsapp, sender_name: str, docname: str, data: dict, url: str = None):
     url = "https://api.11za.in/apis/template/sendTemplate"
 
     payload = {
         "authToken": (env.get("WHATSAPP_TOKEN")),
-        "sendto": clean_mobile(to_number),
+        "sendto": clean_mobile(meationwhatsapp),
         "originWebsite": "https://gokulprint.com/",
         "templateName": "chatbot",
         "language": "en",
         "data": [
-            subject,
-            regarding,
-            remainder_date,
-            priority
+            sender_name,
+            docname,
+            data.get('subject', 'N/A'),
+            url if url else "N/A",
+            data.get('custom_issue_regarding', 'N/A'),
+            data.get('custom_remainder_date', 'N/A'),
+            data.get('priority', 'N/A')
         ],
 
     }
@@ -95,3 +98,5 @@ def assigned_a_ticket(to_number, subject, regarding, remainder_date, priority):
     except ValueError:
         print(response.text)
         return response.text
+
+

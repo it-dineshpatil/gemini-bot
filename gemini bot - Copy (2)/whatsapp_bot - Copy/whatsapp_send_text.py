@@ -32,15 +32,16 @@ def whatsapp_send_text(to_number, message):
 
     try:
         print(send.json())
-        return send.json()
+        return send.status_code
     
     except ValueError as e:
-        print(send.text)
+        # print(send.text)
         print("Error parsing JSON response:", str(e))
-        return send.text
+        return send
 
 # Explanation How to This Function Call
-# whatsapp_send_text(
-#     "8140021166",
+# status = whatsapp_send_text(
+#     "6307343181",
 #     "Hello, this is a test message from the WhatsApp API!"
 # )
+# print("Message send status:", status)
