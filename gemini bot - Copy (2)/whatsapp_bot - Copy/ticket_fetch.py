@@ -86,7 +86,7 @@ def ticket_message(from_number):
             "subject",
             "status",
             "custom_remainder_date",
-            "custom_raised",
+            # "custom_raised",
             "issue_type"
         ]),
     }
@@ -118,7 +118,7 @@ def ticket_message(from_number):
             f"{start + position + 1}:{ticket}"
             for position, ticket in enumerate(batch)
         )
-        print(numbered_batch)
+
         whatsapp_send_text(from_number, numbered_batch)
 
         if start + 5 < len(message):
@@ -133,4 +133,56 @@ def ticket_message(from_number):
     )
 # ticket_message("918140021166")
 
-              
+def assignes_ticket(from_number):
+    params = {
+        "filters": json.dumps([
+            ["custom_regarding_whatsapp_number", "=", from_number],
+            ["status", "!=", "Closed"],
+        ]),
+        "order_by": "creation asc",
+        # "limit_page_length": 5,
+        "fields": json.dumps([
+            "name",
+            "subject",
+            "status",
+            "custom_remainder_date",
+            "custom_raised",
+            # "issue_type"
+        ]),
+    }
+    response = requests.get(
+        f"{base_url}/api/resource/{target_doctype}",
+        headers=get_headers(),
+        params=params,
+        timeout=30,
+    )
+    response.raise_for_status()
+    # print(f"Response Status Code: {response}")
+    response_data = response.json()
+    # print(response_data)
+    
+    message = []
+    for ticket in response_data.get("data", []):
+        message.append(
+                f"🎫 Ticket ID: {ticket['name']}"
+                f"\n🖍 Raised By: {ticket.get('custom_raised', 'N/A')}, "
+                f"\n📌 Subject: {ticket['subject']}, "
+                # f"\n👨‍💼Regarding:{ticket['issue_type']}, "
+                f"\n⚡ Status: {ticket['status']}, "
+                f"\n⏰ Reminder: {ticket.get('custom_remainder_date', 'N/A')}"
+                f"\n"
+        )
+    for start in range(0, len(message), 10):
+        batch = message[start:start + 10]
+        numbered_batch = "\n".join(
+            f"{start + position + 1}:{ticket}"
+            for position, ticket in enumerate(batch)
+        )
+        whatsapp_send_text(from_number, numbered_batch)
+
+        if start + 5 < len(message):
+            print("More")
+
+    return message
+# ticket_message("918140021166")
+             
