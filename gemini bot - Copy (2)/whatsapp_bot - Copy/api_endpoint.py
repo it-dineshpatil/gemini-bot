@@ -90,16 +90,18 @@ def job_report_endpoint():
         "status": "received",
         "result": repy
     }), 200   
-
+    
+@app.route("/ticket_fetch_endpoint", methods=["POST"])
 def ticket_fetch_endpoint():
     data = request.get_json(silent=True) or {}
     print(f"job_report Endpoint respone{data}")
     repy = ticket_fetch(data.get("from_number"))
-    print(repy)
+    # print(repy)
     return jsonify({
         "status": "received",
         "result": repy
-    }), 200      
+    }), 200
+    
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
     # app.run(host="0.0.0.0", port=5000, debug=True)
