@@ -1,6 +1,7 @@
 import json
 import time
 import requests
+import array as arr
 from whatsapp_send_text  import whatsapp_send_text
 from security import (
     erpnext_local,
@@ -16,15 +17,17 @@ def get_headers():
         "Authorization": f"token {erpnext_local_key}:{erpnext_local_secret}",
         "Content-Type": "application/json",
     }
-
+global send_message 
 def ticket_fetch(from_number):
+    ids = send_message if send_message else [""]
     params = {
         "filters": json.dumps([
             ["custom_whatsapp_number", "=", from_number],
+            ["name", "not in", ids],
             ["status", "!=", "Closed"],
         ]),
         "order_by": "creation asc",
-        # "limit_page_length": 10,
+        "limit_page_length": 10,
         "fields": json.dumps([
             "name",
             "subject",
@@ -42,26 +45,33 @@ def ticket_fetch(from_number):
     response.raise_for_status()
     # print(f"Response Status Code: {response}")
     response_data = response.json()
-    # print(response_data)
     
-    # message = []
-    # if response_data.get("data"):
-    #     for ticket in response_data["data"]:
-    #         message.append(
-    #             f"ticket_Name: {ticket['name']}, "
-    #             # f"Custom Raised By: {ticket.get('custom_raised', 'N/A')}, "
-    #             f"subject: {ticket['subject']}, "
-    #             f"status: {ticket['status']}, "
-    #             f"remainder_date: {ticket.get('custom_remainder_date', 'N/A')}"
-            # )
-    # tickets = response_data.get("data", [])
-    return response_data
+    
+
+    if response_data.get("data"):
+        for ticket in response_data["data"]:
+            arr.send_message.append(
+                # f"from_number {from_number}"
+                f"ticket_Name: {ticket['name']}",
+
+            )
+    tickets = response_data.get("data", [])
+    return 
+
 
 
 # if __name__ == "__main__":
 # datas = ticket_fetch("918347089999")
 # for data in datas:
 #     print(data)
+
+
+
+
+
+
+
+
 
 def ticket_message(from_number):
     params = {

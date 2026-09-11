@@ -91,8 +91,8 @@ def job_report_endpoint():
         "result": repy
     }), 200   
     
-@app.route("/ticket_fetch_endpoint", methods=["POST"])
-def ticket_fetch_endpoint():
+@app.route("/my_ticket_view_endpoint", methods=["POST"])
+def my_ticket_view_endpoint():
     data = request.get_json(silent=True) or {}
     print(f"job_report Endpoint respone{data}")
     repy = ticket_message(data.get("from_number"))
