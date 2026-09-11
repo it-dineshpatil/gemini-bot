@@ -13,11 +13,12 @@ def regarding_pers_audio_with(meationwhatsapp,  sender_name: str, docname: str, 
         f"💬 *Audio Message:* {url}\n"
         f"🔗 _Keep this ID for tracking._"
     )
-    # message_status= whatsapp_send_text(meationwhatsapp, message)
-    # if message_status == 200:
-    temp_status = assigned_a_ticket(meationwhatsapp, sender_name, docname, data, url)
-    return temp_status
-def regarding_pers(meationwhatsapp,  sender_name: str, docname: str, data: dict):
+    message_status= whatsapp_send_text(meationwhatsapp, message)
+    if message_status != 200:
+        temp_status = assigned_a_ticket(meationwhatsapp, sender_name, docname, data, url)
+    return None
+
+def regarding_pers(meationwhatsapp,  sender_name: str, docname: str, data: dict,url: str = None):
     message = (
         f"🎯 *You are assigned a Ticket*\n\n"
         f"👤 *Created By:* {sender_name}\n"
@@ -28,7 +29,12 @@ def regarding_pers(meationwhatsapp,  sender_name: str, docname: str, data: dict)
         f"⭐ *Priority:* {data.get('priority', 'N/A')}\n\n"
         f"🔗 _Keep this ID for tracking._"
     )
-    return whatsapp_send_text(meationwhatsapp, message)
+    message_status= whatsapp_send_text(meationwhatsapp, message)
+    if message_status != 200:
+        temp_status = assigned_a_ticket(meationwhatsapp, sender_name, docname, data)
+    return None
+    
+    # return whatsapp_send_text(meationwhatsapp, message)
 
 # regarding_pers("918140021166", "dinesh", "DdfdOdfds", {"subject": "Test Ticket"})
 

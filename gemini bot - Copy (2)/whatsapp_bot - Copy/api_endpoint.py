@@ -49,7 +49,7 @@ def ticket_text_endpoint():
 @app.route("/voice_ticket", methods=["POST"])
 def voice_ticket_endpoint():
     data = request.get_json(silent=True) or {}
-    time.sleep(1)  # Add a 1-second delay before processing
+    # time.sleep(1)  # Add a 1-second delay before processing
     print(f"Received voice ticket data: {data}")
     #audio_path file  audio download and save and call ai.py file in ask funcation
     

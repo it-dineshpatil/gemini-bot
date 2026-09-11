@@ -42,26 +42,7 @@ def chatbot(to_number, subject, regarding, remainder_date, priority):
         print(response.text)
         return response.text
     
-# chatbot("8140021166", "Test Subject", "Test Regarding", "2023-10-10", "High")
 
-
-# {
-#     "authToken": "U2FsdGVkX18YdKcPMX....",
-#     "name": "Name of the Customer",
-#     "sendto": "910000000000",
-#     "originWebsite": "www.11za.com",
-#     "templateName": "template_name",
-#     "language": "en",
-#     "buttonValue": "https://11za.com",//multiple button value => ["https://11za.com","https://11za.in"]
-#     "headerdata": "headerdata", //required when header type is text with dynamic variable
-#     "myfile": "", // add media URL
-#     "myfileName" : "filename", //Specify the filename, visible on customer side
-#     "data": [
-#         "Test",
-#         "test2"
-#     ],
-#     "tags": "ABC,DEF"
-# }
 
 def assigned_a_ticket(meationwhatsapp, sender_name: str, docname: str, data: dict, url: str = None):
     url = "https://api.11za.in/apis/template/sendTemplate"
@@ -70,14 +51,13 @@ def assigned_a_ticket(meationwhatsapp, sender_name: str, docname: str, data: dic
         "authToken": (env.get("WHATSAPP_TOKEN")),
         "sendto": clean_mobile(meationwhatsapp),
         "originWebsite": "https://gokulprint.com/",
-        "templateName": "chatbot",
+        "templateName": "assigned_a_ticket",
         "language": "en",
         "data": [
             sender_name,
             docname,
             data.get('subject', 'N/A'),
-            url if url else "N/A",
-            data.get('custom_issue_regarding', 'N/A'),
+            url,
             data.get('custom_remainder_date', 'N/A'),
             data.get('priority', 'N/A')
         ],

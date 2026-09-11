@@ -22,8 +22,8 @@ def name(from_number):
             return "Unknown"
 
 
-
 def audio_reply(url: str, from_number: str) -> str:
+    whatsapp_send_text(from_number, "Please wait while we process your audio message and extract ticket details...")
     sender_name = name(from_number)
     if sender_name == "Unknown":
         print(f"Number {from_number} Not Registered ,  Please Contact IT Team.")
