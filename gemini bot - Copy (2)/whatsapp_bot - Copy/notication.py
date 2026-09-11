@@ -48,3 +48,4 @@ def ticket_details_noti(from_number, docname, data):
     f"🔗 _Keep this ID for tracking._"
     )
     return whatsapp_send_text(from_number,message)
+

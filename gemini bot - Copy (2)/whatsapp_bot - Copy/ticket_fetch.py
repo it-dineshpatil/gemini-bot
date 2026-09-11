@@ -1,5 +1,7 @@
 import json
+import time
 import requests
+from whatsapp_send_text  import whatsapp_send_text
 from security import (
     erpnext_local,
     erpnext_local_key,
@@ -22,7 +24,7 @@ def ticket_fetch(from_number):
             ["status", "!=", "Closed"],
         ]),
         "order_by": "creation asc",
-        "limit_page_length": 10,
+        # "limit_page_length": 10,
         "fields": json.dumps([
             "name",
             "subject",
@@ -68,13 +70,14 @@ def ticket_message(from_number):
             ["status", "!=", "Closed"],
         ]),
         "order_by": "creation asc",
-        "limit_page_length": 10,
+        # "limit_page_length": 5,
         "fields": json.dumps([
             "name",
             "subject",
             "status",
             "custom_remainder_date",
-            "custom_raised"
+            "custom_raised",
+            "issue_type"
         ]),
     }
     response = requests.get(
@@ -88,17 +91,36 @@ def ticket_message(from_number):
     response_data = response.json()
     # print(response_data)
     
-    if response_data.get("data"):
-        for ticket in response_data["data"]:
-            message=(
-                f"ticket_Name: {ticket['name']}, "
+    message = []
+    for ticket in response_data.get("data", []):
+        message.append(
+                f"🎫 Ticket ID:{ticket['name']}"
                 # f"Custom Raised By: {ticket.get('custom_raised', 'N/A')}, "
-                f"subject: {ticket['subject']}, "
-                f"status: {ticket['status']}, "
-                f"remainder_date: {ticket.get('custom_remainder_date', 'N/A')}"
-            )
-    # tickets = response_data.get("data", [])
-    return 
-print(ticket_message("918140021166"))
+                f"\n📌Subject:{ticket['subject']}, "
+                f"\n👨‍💼Regarding:{ticket['issue_type']}, "
+                f"\n⚡ Status: {ticket['status']}, "
+                f"\n⏰ Reminder: {ticket.get('custom_remainder_date', 'N/A')}"
+                f"\n"
+        )
+    for start in range(0, len(message), 10):
+        batch = message[start:start + 10]
+        numbered_batch = "\n".join(
+            f"{start + position + 1}:{ticket}"
+            for position, ticket in enumerate(batch)
+        )
+        print(numbered_batch)
+        whatsapp_send_text(from_number, numbered_batch)
+
+        if start + 5 < len(message):
+            print("More")
+        
+    if message:
+        time.sleep(2)
+
+    return whatsapp_send_text(
+        from_number,
+        "⚠️ *Notice:* Please close your old tickets if they are resolved.",
+    )
+# ticket_message("918140021166")
 
               

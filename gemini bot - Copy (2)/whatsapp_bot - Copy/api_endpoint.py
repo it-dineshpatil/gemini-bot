@@ -11,7 +11,7 @@ from regarding_per import number_check
 from ai_chat_ana import ask_chat_ana
 from insert import create_supplier_challan
 from  repy_analy import jobwork_report
-from ticket_fetch import ticket_fetch
+from ticket_fetch import ticket_fetch , ticket_message
 app = Flask(__name__)
 
 
@@ -95,7 +95,7 @@ def job_report_endpoint():
 def ticket_fetch_endpoint():
     data = request.get_json(silent=True) or {}
     print(f"job_report Endpoint respone{data}")
-    repy = ticket_fetch(data.get("from_number"))
+    repy = ticket_message(data.get("from_number"))
     # print(repy)
     return jsonify({
         "status": "received",
