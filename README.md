@@ -9,7 +9,7 @@ An automated WhatsApp chatbot for **Gokul Tex Print** designed to handle ticketi
 1. **Add Contact:** Save the official bot number to your phone's contact list:
    * **Phone Number:** `+918511492625`[cite: 1]
 
-   ![Contact Screen](images/contact_number.png)
+   ![Contact Screen]([images/contact_number.png](https://drive.google.com/file/d/1MqRTz163o567M4d8TPGp76L11zuGh86K/view))
 
 2. **Start Conversation:** Open WhatsApp and send a greeting message (e.g., `Hi` or `Hello`) to start the main menu session[cite: 1].
 
