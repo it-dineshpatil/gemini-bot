@@ -17,13 +17,14 @@ def get_headers():
         "Authorization": f"token {erpnext_local_key}:{erpnext_local_secret}",
         "Content-Type": "application/json",
     }
-global send_message 
-def ticket_fetch(from_number):
+global send_message
+def close_my_ticket(from_number):
+    send_message= []
     ids = send_message if send_message else [""]
     params = {
         "filters": json.dumps([
             ["custom_whatsapp_number", "=", from_number],
-            ["name", "not in", ids],
+            # ["name", "not in", ["ISS-2026-00106","ISS-2026-00088"]],
             ["status", "!=", "Closed"],
         ]),
         "order_by": "creation asc",
@@ -48,17 +49,32 @@ def ticket_fetch(from_number):
     
     
 
-    if response_data.get("data"):
-        for ticket in response_data["data"]:
-            arr.send_message.append(
-                # f"from_number {from_number}"
-                f"ticket_Name: {ticket['name']}",
+    # if response_data.get("data"):
+    #     for ticket in response_data["data"]:
+    #         send_message.append(
+    #             # f"from_number {from_number}"
+    #             f"ticket_Name: {ticket['name']}",
 
-            )
-    tickets = response_data.get("data", [])
-    return 
-
-
+    #         )
+    # tickets = response_data.get("data", [])
+    # print(send_message)
+#     return response_data
+# print(close_my_ticket("918140021166").get("data")[0])
+# for i in range(1):
+#     data = []
+#     data = close_my_ticket("918140021166")
+    # print(data.get(data])
+    # for ticket in data.get("name"):
+    #     message =(
+    #             f"🎫 Ticket ID:{ticket['name']}"
+    #             # f"Custom Raised By: {ticket.get('custom_raised', 'N/A')}, "
+    #             f"\n📌Subject:{ticket['subject']}, "
+    #             # f"\n👨‍💼Regarding:{ticket['issue_type']}, "
+    #             f"\n⚡ Status: {ticket['status']}, "
+    #             f"\n⏰ Reminder: {ticket.get('custom_remainder_date', 'N/A')}"
+    #             f"\n"
+    #     )
+    # print(message)
 
 # if __name__ == "__main__":
 # datas = ticket_fetch("918347089999")
@@ -185,4 +201,5 @@ def assignes_ticket(from_number):
 
     return message
 # ticket_message("918140021166")
+             
              

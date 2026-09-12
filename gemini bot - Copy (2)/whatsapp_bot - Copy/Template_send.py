@@ -44,7 +44,7 @@ def chatbot(to_number, subject, regarding, remainder_date, priority):
     
 
 
-def assigned_a_ticket(meationwhatsapp, sender_name: str, docname: str, data: dict, url: str = None):
+def assigned_a_ticket(meationwhatsapp, sender_name: str, docname: str, data: dict, audio_link: str = None):
     url = "https://api.11za.in/apis/template/sendTemplate"
 
     payload = {
@@ -57,7 +57,7 @@ def assigned_a_ticket(meationwhatsapp, sender_name: str, docname: str, data: dic
             sender_name,
             docname,
             data.get('subject', 'N/A'),
-            url,
+            audio_link or "None",
             data.get('custom_remainder_date', 'N/A'),
             data.get('priority', 'N/A')
         ],
@@ -78,5 +78,3 @@ def assigned_a_ticket(meationwhatsapp, sender_name: str, docname: str, data: dic
     except ValueError:
         print(response.text)
         return response.text
-
-

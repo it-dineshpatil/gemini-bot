@@ -50,7 +50,7 @@ Return ONLY JSON:
 
 Rules:
 - Extract only what user says. Never guess. Missing = "".
-- subject = short issue/request.
+- subject =  issue/request.
 - regarding allowed: {meation()}.
 - HR = employee/salary/leave/attendance.general/leave IT = ERPNext/computer/network/server/software.
 - Person only if clearly related.

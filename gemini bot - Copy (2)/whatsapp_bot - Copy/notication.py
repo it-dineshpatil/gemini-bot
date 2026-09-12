@@ -15,7 +15,8 @@ def regarding_pers_audio_with(meationwhatsapp,  sender_name: str, docname: str, 
     )
     message_status= whatsapp_send_text(meationwhatsapp, message)
     if message_status != 200:
-        temp_status = assigned_a_ticket(meationwhatsapp, sender_name, docname, data, url)
+        audio_link = url
+        temp_status = assigned_a_ticket(meationwhatsapp, sender_name, docname, data, audio_link)
     return None
 
 def regarding_pers(meationwhatsapp,  sender_name: str, docname: str, data: dict,url: str = None):
