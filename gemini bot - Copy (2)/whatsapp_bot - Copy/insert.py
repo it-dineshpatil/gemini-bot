@@ -1,8 +1,7 @@
 import requests
 import json
 import os
-from notication import regarding_pers
-from notication import ticket_details_noti ,regarding_pers_audio_with
+from notication import ticket_details_noti ,regarding_pers_audio_with ,regarding_pers
 from whatsapp_send_text import whatsapp_send_text
 from attachments import attach_files
 
@@ -41,7 +40,7 @@ def get_headers():
         "Content-Type": "application/json",
     }
 
-def create_supplier_challan(data=None,from_number=None,audio_path=None):
+def create_ticket(data=None,from_number=None,audio_path=None):
     file_path = audio_path
     print(f"Creating ticket with data: {data} ,from_number={from_number}, audio_path={audio_path}")
   
@@ -57,7 +56,7 @@ def create_supplier_challan(data=None,from_number=None,audio_path=None):
             "custom_regarding_whatsapp_number":meation_person_whatsapp(data.get("custom_issue_regarding","")),
             "priority": data.get("priority", ""),
             "custom_raised": create_by(from_number),
-            "custom_whatsapp_number": from_number,
+            "custom_whatsapp_number": from_number
         }
     
         response = requests.post(
@@ -103,7 +102,7 @@ def create_supplier_challan(data=None,from_number=None,audio_path=None):
             "Error while creating ticket. Please try again later."
         )
 
-# create_supplier_challan(
+# create_ticket(
 #     data={
 #         "subject": "Test Audio Ticket",
 #         "custom_issue_regarding": "Dinesh It",

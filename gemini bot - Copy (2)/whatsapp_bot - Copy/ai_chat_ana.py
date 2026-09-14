@@ -6,7 +6,7 @@ import time
 from google import genai
 from numpy import number
 from google.genai import types
-from insert import create_supplier_challan
+from insert import create_ticket
 from security import gemini
 from datetime import date
 from whatsapp_send_text import whatsapp_send_text   

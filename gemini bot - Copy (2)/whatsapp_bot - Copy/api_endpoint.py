@@ -9,11 +9,12 @@ from  Audio_repy_analy import audio_reply
 # from ai import confirm_ticket
 from regarding_per import number_check
 from ai_chat_ana import ask_chat_ana
-from insert import create_supplier_challan
+from insert import create_ticket
 from  repy_analy import jobwork_report
 from ticket_fetch import  ticket_message ,assignes_ticket
-app = Flask(__name__)
 
+        
+app = Flask(__name__)
 
 @app.route("/", methods=["GET"])
 def home():
@@ -24,12 +25,21 @@ def number_check_endpoint():
     data = request.get_json(silent=True) or {}
     
     response = number_check(data.get("from_number"))
+    responce_text =  data.get("send_messaage")
+    print(response)
+    def analay(respo):
+        if "voi" in  respo.lower():
+            return "voice_ticket" or None
+        elif "chat" in respo.lower():
+            return "chat_ticket" or None
+        
     print(f"Number check result: {response},{data.get('from_number')}")
-    
+    return_repo = analay(responce_text)
     log(datetime.now().strftime("%d-%m-%Y %H:%M:%S"), data.get("from_number"), data.get("userResponse"), response)
     return jsonify({
         "status": "received",
-        "result": response
+        "result": response,
+        "responce_text": return_repo
     }), 200
 
 
@@ -49,8 +59,8 @@ def ticket_text_endpoint():
 @app.route("/voice_ticket", methods=["POST"])
 def voice_ticket_endpoint():
     data = request.get_json(silent=True) or {}
-    # time.sleep(1)  # Add a 1-second delay before processing
-    print(f"Received voice ticket data: {data}")
+    # print(f"Received voice ticket data: {data}")
+    
     #audio_path file  audio download and save and call ai.py file in ask funcation
     
     response = audio_reply(url=data.get("url"), from_number=data.get("from_number"))
@@ -65,7 +75,7 @@ def voice_ticket_endpoint():
 def insert_ticket_endpoint():
     data = request.get_json(silent=True) or {}
     print(f"Received insert ticket data: {data}")
-    create_supplier_challan(
+    create_ticket(
         data=data,
         from_number=data.get("from_number"),
         audio_path=data.get("audio_path"),
@@ -105,7 +115,7 @@ def my_ticket_view_endpoint():
 @app.route("/assignes_ticket_endpoint", methods=["POST"])
 def assignes_ticket_endpoint():
     data = request.get_json(silent=True) or {}
-    print(f"job_report Endpoint respone{data}")
+    print(f"assignes Endpoint respone{data}")
     repy = assignes_ticket(data.get("from_number"))
     return jsonify({
         "status": "received",

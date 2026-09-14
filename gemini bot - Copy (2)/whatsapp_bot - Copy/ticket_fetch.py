@@ -173,14 +173,15 @@ def assignes_ticket(from_number):
         timeout=30,
     )
     response.raise_for_status()
-    # print(f"Response Status Code: {response}")
+    print(f"Response Status Code: {response}")
     response_data = response.json()
-    # print(response_data)
+    print(response_data)
     
     message = []
     for ticket in response_data.get("data", []):
         message.append(
-                f"🎫 Ticket ID: {ticket['name']}"
+                # f"You are Assing Tickets",
+                f"\n🎫 Ticket ID: {ticket['name']}"
                 f"\n🖍 Raised By: {ticket.get('custom_raised', 'N/A')}, "
                 f"\n📌 Subject: {ticket['subject']}, "
                 # f"\n👨‍💼Regarding:{ticket['issue_type']}, "
@@ -200,6 +201,5 @@ def assignes_ticket(from_number):
             print("More")
 
     return message
-# ticket_message("918140021166")
-             
+# print(assignes_ticket("9140021166"))
              
