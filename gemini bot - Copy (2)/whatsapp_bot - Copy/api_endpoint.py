@@ -93,7 +93,7 @@ def insert_ticket_endpoint():
 def job_report_endpoint():
     data = request.get_json(silent=True) or {}
     print(f"job_report Endpoint respone{data}")
-    repy = jobwork_report(data.get("from_number"),None)
+    repy = jobwork_report(data.get("from_number"))
     print(repy)
     
     log(datetime.now().strftime("%d-%m-%Y %H:%M:%S"), data.get("from_number"), data.get("userResponse"), f"Ticket inserted: {data.get('subject')}")

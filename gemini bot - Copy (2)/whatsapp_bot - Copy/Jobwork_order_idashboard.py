@@ -4,8 +4,9 @@ import pandas as pd
 import pathlib
 from security import read_env
 from datetime import date, timedelta
+from Template_send import chatbot ## report faild after Whatsapp Message  IT Support Automatic
 
-def execute_and_export_report(sales):
+def execute_and_export_report(sales,from_number):
     output_path = pathlib.Path(f"report/{sales}_jobwork_report.xlsx")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     try:
@@ -49,10 +50,15 @@ def execute_and_export_report(sales):
     
     response = requests.post(url, headers=headers, data=payload)
     print(f"API Response Status: {response.status_code}")
-    
+     
     if response.status_code != 200:
-        # print(response.text)
-        response.raise_for_status()
+        print(response.text)
+        
+        ## technical Team Message Send For Report erroe Auto Send
+        subj = (f"Jobwork Order iDashboard Hns-Rep error Come Chatbot Please Check error code{response}")
+        remain_se = (f"Issue Face Person Number\n {from_number}")
+        return chatbot("918140021166", subject=subj,regarding= "Dinesh Sofware", remainder_date=remain_se, priority= "High")
+    # chatbot(to_number, subject, regarding, remainder_date, priority)
 
     res_json = response.json()
     report_data = res_json.get("message", {})
@@ -136,4 +142,4 @@ def execute_and_export_report(sales):
     return str(output_path)
 
 # if __name__ == "__main__":
-#     execute_and_export_report("Hitesh Batra")
+#     execute_and_export_report("Hitesh Batra","918140021166")

@@ -61,7 +61,7 @@ def jobwork_report(from_number, message_text=None):
         else:
             message = "📊 Jobwork Order Dashboard Report\n ⏳ Sending in progress...\n ✅ The report will be delivered within 1 minute."
             whatsapp_send_text(from_number,message)
-            file_path = execute_and_export_report(sales)
+            file_path = execute_and_export_report(sales,from_number)
             whatsapp_send_file(from_number, file_path, f"Hello {sales}, here is your jobwork report.")
 
 def sales_report(from_number, message_text):
