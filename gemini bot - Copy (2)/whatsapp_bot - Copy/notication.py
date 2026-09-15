@@ -50,3 +50,19 @@ def ticket_details_noti(from_number, docname, data):
     )
     return whatsapp_send_text(from_number,message)
 
+def close_ticket_noti(data):
+    message = (
+    f"You have closed a ticket.\n\n",
+    f"👤 Created By: {data.get('custom_raised')}\n",
+    f"👤➡️ WhatsApp Number: {data.get('custom_whatsapp_number')}\n",
+    f"✅ *Ticket #{data.get('docname')} Closed*\n",
+    f"🏷️ Ticket Status: {data.get('status')}\n",
+    f"📝 *Subject:* {data.get('subject', 'N/A')}\n\n",
+    f"🙏 Thank you for using our service._"
+
+    )
+    message_status=  whatsapp_send_text(data.get("from_number"), message)
+    if message_status != 200:
+        temp_status = close_ticket_noti(from_number=data.get("from_number"), message=message)
+    return None
+# close_ticket_noti("918140021166", "Your ticket has been closed successfully.")

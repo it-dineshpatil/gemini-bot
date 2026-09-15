@@ -12,6 +12,7 @@ from ai_chat_ana import ask_chat_ana
 from insert import create_ticket
 from  repy_analy import jobwork_report
 from ticket_fetch import  ticket_message ,assignes_ticket
+from notication import close_ticket_noti
 
         
 app = Flask(__name__)
@@ -126,13 +127,16 @@ def assignes_ticket_endpoint():
 @app.route("/close_ticket", methods=["POST"])
 def close_ticket():
     data = request.get_json(silent=True) or {}
+    close_ticket_noti(data=data)
+
     print(data)
     
     # print(repy)
     return jsonify({
         "status": "received",
         "result": data
-    }), 200    
+    }), 200 
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
     # app.run(host="0.0.0.0", port=5000, debug=True)

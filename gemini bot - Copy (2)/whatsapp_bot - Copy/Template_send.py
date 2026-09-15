@@ -78,3 +78,36 @@ def assigned_a_ticket(meationwhatsapp, sender_name: str, docname: str, data: dic
     except ValueError:
         print(response.text)
         return response.text
+
+
+def close_ticket_noti(from_number, message):
+    url = "https://api.11za.in/apis/template/sendTemplate"
+
+    payload = {
+        "authToken": (env.get("WHATSAPP_TOKEN")),
+        "sendto": clean_mobile(from_number),
+        "originWebsite": "https://gokulprint.com/",
+        "templateName": "remainder",
+        "language": "en",
+        "data": [
+            message
+        ],
+
+    }
+
+    response = requests.post(
+        url,
+        headers={"Content-Type": "application/json"},
+        json=payload,
+        timeout=30
+    )
+
+    print(response.status_code)
+    try:
+        print(response.json())
+        return response.json()
+    except ValueError:
+        print(response.text)
+        return response.text
+
+# close_ticket_noti(from_number="918140021166", message="Your ticket has been closed.")
