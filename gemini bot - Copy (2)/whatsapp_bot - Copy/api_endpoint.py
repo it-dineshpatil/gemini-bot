@@ -127,7 +127,7 @@ def assignes_ticket_endpoint():
 @app.route("/close_ticket", methods=["POST"])
 def close_ticket():
     data = request.get_json(silent=True) or {}
-    close_ticket_noti(data=data)
+    close_ticket_noti(data)
 
     print(data)
     

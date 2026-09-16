@@ -1,5 +1,5 @@
 from whatsapp_send_text import whatsapp_send_text
-from Template_send import assigned_a_ticket
+from Template_send import assigned_a_ticket , close_ticket_noti_temp
 # from regarding_per import create_by
 def regarding_pers_audio_with(meationwhatsapp,  sender_name: str, docname: str, data: dict, url: str = None):
     message = (
@@ -52,17 +52,22 @@ def ticket_details_noti(from_number, docname, data):
 
 def close_ticket_noti(data):
     message = (
-    f"You have closed a ticket.\n\n",
-    f"👤 Created By: {data.get('custom_raised')}\n",
-    f"👤➡️ WhatsApp Number: {data.get('custom_whatsapp_number')}\n",
-    f"✅ *Ticket #{data.get('docname')} Closed*\n",
-    f"🏷️ Ticket Status: {data.get('status')}\n",
-    f"📝 *Subject:* {data.get('subject', 'N/A')}\n\n",
-    f"🙏 Thank you for using our service._"
-
+        f"You have closed a ticket.\n\n"
+        f"👤 Created By: {data.get('custom_raised', 'N/A')}\n"
+        f"👤➡️ WhatsApp Number: {data.get('custom_whatsapp_number', 'N/A')}\n"
+        f"✅ *Ticket #{data.get('name', 'N/A')} Closed*\n"
+        # f"🏷️ Ticket Status: {data.get('status', 'N/A')}\n"
+        f"📝 *Subject:* {data.get('subject', 'N/A')}\n\n"
+        f"🙏 Thank you for using our service."
     )
-    message_status=  whatsapp_send_text(data.get("from_number"), message)
+
+    from_number = data.get("custom_regarding_whatsapp_number")
+
+    message_status = whatsapp_send_text(from_number, message)
+
     if message_status != 200:
-        temp_status = close_ticket_noti(from_number=data.get("from_number"), message=message)
+        close_ticket_noti_temp(from_number=from_number,message=message
+        )
+
     return None
 # close_ticket_noti("918140021166", "Your ticket has been closed successfully.")
