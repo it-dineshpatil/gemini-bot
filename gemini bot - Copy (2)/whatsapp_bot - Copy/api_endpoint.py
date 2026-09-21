@@ -121,7 +121,7 @@ def assignes_ticket_endpoint():
     repy = assignes_ticket(data.get("from_number"))
     return jsonify({
         "status": "received",
-        "result": repy
+        "result": "Done"
     }), 200
     
 @app.route("/close_ticket", methods=["POST"])

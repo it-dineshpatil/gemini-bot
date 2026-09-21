@@ -78,7 +78,7 @@ def ask(audio_path: str, from_number: str ,sender_name: str) -> str:
 
         # Wait for audio file to finish processing
         while audio_file.state.name == "PROCESSING":
-            time.sleep(1)
+            # time.sleep(1)
             audio_file = client.files.get(name=audio_file.name)
 
         if audio_file.state.name == "FAILED":
