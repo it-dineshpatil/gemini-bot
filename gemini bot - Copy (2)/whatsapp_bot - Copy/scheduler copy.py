@@ -5,7 +5,7 @@ import json
 import time
 import requests
 import array as arr
-
+from Template_send import remainder
 from datetime import date
 from security import (
     erpnext_local,
@@ -14,21 +14,38 @@ from security import (
 )
 
 
-def remainder():
-    url = f"{erpnext_local}/api/method/fetch_ticket.fetch_ticket"
+def remainder_fetch():
+    url = f"{erpnext_local}/api/method/fetch_ticket"
     headers = {
         "Authorization": f"token {erpnext_local_key}:{erpnext_local_secret}",
         "Content-Type": "application/json",
     }
-    params = {}
+    # params = {}
 
-    response = requests.get(url, headers=headers, params=params, timeout=30)
+    response = requests.get(url, headers=headers, timeout=30)
     response.raise_for_status()
-    return response.json()
-if __name__ == "__main__":
-    print(remainder())
-# schedule.every().day.at("18:56").do(remainder)
+    data = response.json()
+    return data.get("message")
 
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)
+def call():
+    for i in remainder_fetch():
+        message = (
+            f"🔔 *Reminder*\n"
+            f"━━━━━━━━━━━━━━━━━━\n"
+            f"🆔 *Ticket ID:* {i.get('name')}\n\n"
+            f"📝 *Subject:*\n"
+            f"*{i.get('subject')}*\n\n"
+            f"👤 *Regarding:* {i.get('issue_type')}\n\n"
+            f"⏰ *Reminder Date:* {i.get('custom_remainder_date')}\n"
+            f"━━━━━━━━━━━━━━━━━━\n"
+            f"📌 Please take the necessary action.")
+        whatsapp_status = whatsapp_send_text("918140021166",message=message)
+        if whatsapp_status != 200:
+            remainder("918140021166",message=message
+        )
+            
+schedule.every().day.at("14:40").do(call)
+    
+while True:
+    schedule.run_pending()
+    time.sleep(1)   
