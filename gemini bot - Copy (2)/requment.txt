@@ -4,68 +4,95 @@ google-genai
 requests
 pandas
 numpy
+schedule 
 
-whatsapp_mes_rece.py
-        ↓
-Audio_repy_analy.py
-        ↓
-ai.py
-        ↓
+# Standard-library modules used by the project do not need installation:
+# array, datetime, json, os, sqlite3, time
+
+Project Flow
+============
+
+1. WhatsApp chatbot
+
+The chatbot is configured in the 11za chatbot builder:
+https://app-v2.11za.in/chatbot
+
+The chatbot sends text, audio, menu selections, and confirmation responses
+to the Flask webhook.
+
+1 11z chatbot trigger 
+
+2. Flask webhook
+
+        Receives incoming WhatsApp webhook requests and routes text and audio
+        messages to the appropriate analysis function.
+
+1. Message analysis
+
+Text message:
+        api_endpoint.py
+                -> ai_chat_ana.py
+                -> Gemini API
+                -> JSON ticket details
+
+Audio message:
+        api_endpoint.py
+                -> Audio_repy_analy.py
+                -> downloads and saves the audio file
+                -> ai.py
+                -> Gemini API
+                -> JSON ticket details
+
+The extracted ticket details contain the subject, concerned person, reminder
+date, and priority.
+
+4. Ticket confirmation
+
 Template_send.py
-        ↓
-User yes/no
-        ↓
-whatsapp_mes_rece.py
-        ↓
-ai.py
-        ↓
-insert.py
-        ↓
-ERPNext Issue
-        ↓
-whatsapp_send_text.py
+        Sends the extracted ticket details to WhatsApp for confirmation.
 
-Project Flow With File Names
+The user's Yes or No response is received by the webhook. Pending ticket
+data is kept in memory while the confirmation workflow is active.
 
+5. Ticket creation
 
-whatsapp_mes_rece.py
-Receives WhatsApp messages through the Flask webhook.
+User response = Yes
+        -> insert.py
+        -> creates an Issue in ERPNext
+        -> uploads an audio attachment when applicable
+        -> notication.py
+        -> sends ticket details and notifications through WhatsApp
 
-Audio_repy_analy.py
-Downloads the audio file and saves it in the audio_file folder.
+User response = No
+        -> cancels the pending ticket and asks    Again Type | Back menu | Exit 
 
-ai.py
-Sends the audio to Gemini and extracts ticket details.
-
-Template_send.py
-Sends the ticket preview to WhatsApp for confirmation.
-
-ai.py
-Temporarily stores the ticket details in pending_tickets.
+6. Supporting modules
 
 whatsapp_mes_rece.py
-Receives the user’s yes or no reply.
-
-ai.py
-Creates or cancels the ticket according to the user’s reply.
-
-insert.py
-Creates the Issue in ERPNext and uploads the audio file.
+        Currect Not User  
+        Alternative webhook handler for incoming text and audio messages.
 
 whatsapp_send_text.py
-Sends the final success or error message to the user.
+        Sends WhatsApp text messages through the 11za API.
 
 security.py
-Reads API keys and URLs from the .env file.
+        Loads WhatsApp, Gemini, and ERPNext credentials from .env.
 
 number.json
-Stores registered WhatsApp numbers and names.
+        Stores registered WhatsApp numbers and names.
 
-web.py
-Provides the Streamlit admin panel to add, search, and delete numbers.
+web.py and webpage.py
+        Provide the Streamlit admin panel for managing registered numbers.
 
 main.py
-Fetches customer information from ERPNext.
+        Fetches customer information from ERPNext.
 
 log.py
-Saves message and reply logs.
+        Saves message and reply logs.
+
+scheduler copy.py
+        Calls the ERPNext fetch_ticket Server Script API for open tickets whose
+        reminder date has arrived.
+
+ticket_fetch.py
+        Fetches open tickets and assigned tickets from ERPNext.

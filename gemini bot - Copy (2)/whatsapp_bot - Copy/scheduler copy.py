@@ -5,7 +5,7 @@ import json
 import time
 import requests
 import array as arr
-from Template_send import remainder
+from Template_send import close_ticket_noti_temp
 from datetime import date
 from security import (
     erpnext_local,
@@ -41,10 +41,10 @@ def call():
             f"📌 Please take the necessary action.")
         whatsapp_status = whatsapp_send_text("918140021166",message=message)
         if whatsapp_status != 200:
-            remainder("918140021166",message=message
+            close_ticket_noti_temp("918140021166",message=message
         )
             
-schedule.every().day.at("14:40").do(call)
+schedule.every().day.at("14:55").do(call)
     
 while True:
     schedule.run_pending()

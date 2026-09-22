@@ -80,7 +80,7 @@ def assigned_a_ticket(meationwhatsapp, sender_name: str, docname: str, data: dic
         return response.text
 
 
-def remainder(from_number, message):
+def close_ticket_noti_temp(from_number, message):
     url = "https://api.11za.in/apis/template/sendTemplate"
 
     payload = {
