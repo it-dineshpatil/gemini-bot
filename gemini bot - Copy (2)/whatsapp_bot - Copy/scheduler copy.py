@@ -39,12 +39,12 @@ def call():
             f"⏰ *Reminder Date:* {i.get('custom_remainder_date')}\n"
             f"━━━━━━━━━━━━━━━━━━\n"
             f"📌 Please take the necessary action.")
-        whatsapp_status = whatsapp_send_text("918140021166",message=message)
+        whatsapp_status = whatsapp_send_text(i.get("custom_whatsapp_number"),message=message)
         if whatsapp_status != 200:
-            close_ticket_noti_temp("918140021166",message=message
+            close_ticket_noti_temp(i.get("custom_whatsapp_number"),message=message
         )
             
-schedule.every().day.at("14:55").do(call)
+schedule.every().day.at("10:30").do(call)
     
 while True:
     schedule.run_pending()

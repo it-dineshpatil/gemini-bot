@@ -11,7 +11,8 @@ from datetime import date
 from whatsapp_send_text import whatsapp_send_text   
 from Template_send import chatbot
 from insert import create_ticket
-today= date.today().strftime("%d-%m-%y")
+today= date.today()
+print(today)
 
 client = genai.Client(api_key=gemini)
 pending_tickets = {}

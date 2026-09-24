@@ -11,7 +11,7 @@ from security import gemini
 from datetime import date
 from whatsapp_send_text import whatsapp_send_text   
 from Template_send import chatbot
-today= date.today().strftime("%d-%m-%y")
+today= date.today()
 
 client = genai.Client(api_key=gemini)
 pending_tickets = {}

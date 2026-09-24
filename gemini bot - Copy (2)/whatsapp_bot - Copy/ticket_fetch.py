@@ -45,7 +45,7 @@ def close_my_ticket(from_number):
     )
     response.raise_for_status()
     # print(f"Response Status Code: {response}")
-    response_data = response.json()
+    # response_data = response.json()
     
     
 
