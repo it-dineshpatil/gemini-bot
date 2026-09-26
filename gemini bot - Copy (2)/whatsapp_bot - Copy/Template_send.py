@@ -109,5 +109,77 @@ def close_ticket_noti_temp(from_number, message):
     except ValueError:
         print(response.text)
         return response.text
+    
+def remainder_message_per(i):
+    url = "https://api.11za.in/apis/template/sendTemplate"
 
+    payload = {
+        "authToken": (env.get("WHATSAPP_TOKEN")),
+        "sendto": clean_mobile(i.get("custom_regarding_whatsapp_number")),
+        # "sendto": "918140021166",
+        "originWebsite": "https://gokulprint.com/",
+        "templateName": "assigned_a_ticket_remainder",
+        "language": "en",
+        "data": [
+            i.get('custom_raised'),
+            i.get('name'),
+           i.get('subject'),
+            i.get('custom_remainder_date'),
+            i.get('priority'),
+            
+        ],
+
+    }
+
+    response = requests.post(
+        url,
+        headers={"Content-Type": "application/json"},
+        json=payload,
+        timeout=30
+    )
+
+    print(response.status_code)
+    try:
+        print(response.json())
+        return response.json()
+    except ValueError:
+        print(response.text)
+        return response.text
+    
+def remainder_message(i):
+    # data = i
+    url = "https://api.11za.in/apis/template/sendTemplate"
+
+    payload = {
+        "authToken": (env.get("WHATSAPP_TOKEN")),
+        # "sendto": clean_mobile(i.get("custom_whatsapp_number")),
+        "sendto": "918140021166",
+        "originWebsite": "https://gokulprint.com/",
+        "templateName": "assigned_a_ticket_remainder_copy",
+        "language": "en",
+        "data": [
+             i.get('name'),
+             i.get('subject'),
+            i.get('custom_raised'),
+            i.get('custom_remainder_date'),
+            i.get('priority'),
+            
+        ],
+
+    }
+
+    response = requests.post(
+        url,
+        headers={"Content-Type": "application/json"},
+        json=payload,
+        timeout=30
+    )
+
+    print(response.status_code)
+    try:
+        print(response.json())
+        return response.json()
+    except ValueError:
+        print(response.text)
+        return response.text
 # close_ticket_noti(from_number="918140021166", message="Your ticket has been closed.")

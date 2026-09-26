@@ -2,6 +2,7 @@ from main import fetch_customers
 from whatsapp_send_text import whatsapp_send_text
 from Whatsapp_file_send import whatsapp_send_file
 from Jobwork_order_idashboard import execute_and_export_report
+from sales_order_tracking_report import sales_report_exu
 
 # from Template_send import Template_send
 def about_person(from_number,message_text):
@@ -63,9 +64,18 @@ def jobwork_report(from_number, message_text=None):
             whatsapp_send_text(from_number,message)
             file_path = execute_and_export_report(sales,from_number)
             whatsapp_send_file(from_number, file_path, f"Hello {sales}, here is your jobwork report.")
-
-def sales_report(from_number, message_text):
-    whatsapp_send_text(from_number, "Sales report functionality is under development. Please check back later.")
+            
+def sales_report(from_number, message_text=None):
+        print(from_number)
+        sales = samesales(from_number)
+        if sales == "None":
+            whatsapp_send_text(from_number,"🤔 Sorry, I couldn't identify you.  Only Salesman Allow..")
+            return "🤔 Sorry, I couldn't identify you.  Only Salesman Allow.."
+        else:
+            message = f"📊 Sales Order Tracking iDashboard Report Hns-Rep Report\n ⏳ Sending in progress...\n ✅ The report will be delivered within 5 minute. {sales}"
+            whatsapp_send_text(from_number,message)
+            file_path = sales_report_exu(from_number,sales)
+            whatsapp_send_file(from_number, file_path, f"Hello {sales}, here is your \n Sales Order Tracking iDashboard Report Hns-Rep  report.  \n\n Thank You For use This Service {sales}")
 
 
 #     pass
@@ -85,4 +95,6 @@ def reply_analysis(from_number, message_text):
 
   
         
-    # whatsapp_send_text(from_number, salesman)
+    # whatsapp_send_text("918140021166", salesman)
+    # reply_analysis("918140021166", "hey")
+# sales_report("918140021166", message_text=None)

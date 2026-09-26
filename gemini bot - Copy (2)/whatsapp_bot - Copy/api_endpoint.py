@@ -10,7 +10,7 @@ from  Audio_repy_analy import audio_reply
 from regarding_per import number_check
 from ai_chat_ana import ask_chat_ana
 from insert import create_ticket
-from  repy_analy import jobwork_report
+from  repy_analy import jobwork_report ,sales_report
 from ticket_fetch import  ticket_message ,assignes_ticket
 from notication import close_ticket_noti
 
@@ -102,7 +102,20 @@ def job_report_endpoint():
         "status": "received",
         "result": repy
     }), 200   
+
+@app.route("/sales_report", methods=["POST"])
+def sales_report_endpoind():
+    data = request.get_json(silent=True) or {}
+    print(f"job_report Endpoint respone{data}")
+    repy = sales_report(data.get("from_number"))
+    print(repy)
     
+    log(datetime.now().strftime("%d-%m-%Y %H:%M:%S"), data.get("from_number"), data.get("userResponse"), f"Ticket inserted: {data.get('subject')}")
+    return jsonify({
+        "status": "received",
+        "result": repy
+    }), 200   
+       
 @app.route("/my_ticket_view_endpoint", methods=["POST"])
 def my_ticket_view_endpoint():
     data = request.get_json(silent=True) or {}
