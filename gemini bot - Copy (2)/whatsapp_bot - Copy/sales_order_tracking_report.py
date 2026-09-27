@@ -78,7 +78,7 @@ def sales_report_exu(from_number,sales_man_name, report_type="Order Summary Repo
     }
     filters = {
         "company": "Gokul Texprints Private Limited",
-        "from_date": "2026-09-25",
+        "from_date": "2026-01-01",
         "to_date": dt.date.today().strftime("%Y-%m-%d"),
         "sales_order": "",
         "customer": [],
@@ -159,7 +159,7 @@ def sales_report_exu(from_number,sales_man_name, report_type="Order Summary Repo
     remaining_columns = [column for column in df.columns if column not in ordered_columns]
     df = df[ordered_columns + remaining_columns]
 
-    file_name = f"{sales_man_name.replace(' ', '_')}_report.xlsx"
+    file_name = f"{sales_man_name.replace(' ', '_')}sales_report.xlsx"
     output_folder = Path(__file__).resolve().parent / "reports"
     output_folder.mkdir(parents=True, exist_ok=True)
     output_path = output_folder / file_name

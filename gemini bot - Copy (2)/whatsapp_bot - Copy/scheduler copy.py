@@ -29,19 +29,19 @@ def remainder_fetch():
 
 def call():
     for i in remainder_fetch():
-#         message = (
-#         f"You are assigned a Task Reminder\n"
-#         f"👤 Created By: *{i.get('custom_raised')}*\n"
-#         f"🆔 Ticket ID: *{i.get('name')}*\n"
-#         f"📌 Subject: *{i.get('subject')}*\n"
-#         f"📅 Reminder Date: {i.get('custom_remainder_date')}\n"
-#         f"⭐ Priority: {i.get('priority')}\n\n"
-#         f"🔗 Keep this ID for tracking.\n"
-#         f"⚠️ Action Required: Please take necessary action."
-# )
-#         whatsapp_status = whatsapp_send_text(i.get("custom_regarding_whatsapp_number"),message=message)
-#         if whatsapp_status != 200:
-#             remainder_message_per(i)
+        message = (
+        f"You are assigned a Task Reminder\n"
+        f"👤 Created By: *{i.get('custom_raised')}*\n"
+        f"🆔 Ticket ID: *{i.get('name')}*\n"
+        f"📌 Subject: *{i.get('subject')}*\n"
+        f"📅 Reminder Date: {i.get('custom_remainder_date')}\n"
+        f"⭐ Priority: {i.get('priority')}\n\n"
+        f"🔗 Keep this ID for tracking.\n"
+        f"⚠️ Action Required: Please take necessary action."
+)
+        whatsapp_status = whatsapp_send_text(i.get("custom_regarding_whatsapp_number"),message=message)
+        if whatsapp_status != 200:
+            remainder_message_per(i)
         tital = "Pending Task Reminder"
         brand = "Power By Gokul Text Print"
         per_message = (
