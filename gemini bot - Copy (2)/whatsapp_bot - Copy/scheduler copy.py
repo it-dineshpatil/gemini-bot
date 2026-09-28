@@ -30,8 +30,7 @@ def remainder_fetch():
 def call():
     for i in remainder_fetch():
         message = (
-        # f"You are assigned a Task Reminder\n"
-        f"Please ignore today’s reminder message.It was sent for testing purposes only."
+        f"You are assigned a Task Reminder\n"
         f"👤 Created By: *{i.get('custom_raised')}*\n"
         f"🆔 Ticket ID: *{i.get('name')}*\n"
         f"📌 Subject: *{i.get('subject')}*\n"
@@ -43,12 +42,14 @@ def call():
         whatsapp_status = whatsapp_send_text(i.get("custom_regarding_whatsapp_number"),message=message)
         if whatsapp_status != 200:
             remainder_message_per(i)
+            
+        time.sleep(1)
+
         tital = "Pending Task Reminder"
         brand = "Power By Gokul Text Print"
         
         per_message = (
         f"*{tital}*\n\n"
-        f"Please ignore today’s reminder message.It was sent for testing purposes only."
         f"🆔 Ticket ID: *{i.get('name')}*\n"
         f"📌 Subject: *{i.get('subject')}*\n"
         f"👤 Regarding: *{i.get('issue_type')}*\n"
@@ -63,7 +64,7 @@ def call():
             remainder_message(i)
             
 # print(call())         
-schedule.every().day.at("11:30").do(call)
+schedule.every().day.at("10:30").do(call)
     
 while True:
     schedule.run_pending()
