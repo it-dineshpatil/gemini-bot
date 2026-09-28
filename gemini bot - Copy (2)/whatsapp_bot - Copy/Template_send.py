@@ -116,7 +116,6 @@ def remainder_message_per(i):
     payload = {
         "authToken": (env.get("WHATSAPP_TOKEN")),
         "sendto": clean_mobile(i.get("custom_regarding_whatsapp_number")),
-        # "sendto": "918140021166",
         "originWebsite": "https://gokulprint.com/",
         "templateName": "assigned_a_ticket_remainder",
         "language": "en",
@@ -152,13 +151,13 @@ def remainder_message(i):
 
     payload = {
         "authToken": (env.get("WHATSAPP_TOKEN")),
-        # "sendto": clean_mobile(i.get("custom_whatsapp_number")),
-        "sendto": "918140021166",
+        "sendto": clean_mobile(i.get("custom_whatsapp_number")),
+        # "sendto": "918140021166",
         "originWebsite": "https://gokulprint.com/",
         "templateName": "assigned_a_ticket_remainder_copy",
         "language": "en",
         "data": [
-             i.get('name'),
+             i.get('name"'),
              i.get('subject'),
             i.get('custom_raised'),
             i.get('custom_remainder_date'),
