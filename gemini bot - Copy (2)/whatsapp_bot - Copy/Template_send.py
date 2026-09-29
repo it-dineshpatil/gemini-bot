@@ -157,7 +157,7 @@ def remainder_message(i):
         "templateName": "assigned_a_ticket_remainder_copy",
         "language": "en",
         "data": [
-             i.get('name"'),
+             i.get('name'),
              i.get('subject'),
             i.get('custom_raised'),
             i.get('custom_remainder_date'),
