@@ -13,6 +13,7 @@ from insert import create_ticket
 from  repy_analy import jobwork_report ,sales_report
 from ticket_fetch import  ticket_message ,assignes_ticket
 from notication import close_ticket_noti
+from waitress import serve
 
         
 app = Flask(__name__)
@@ -150,8 +151,12 @@ def close_ticket():
         "result": data
     }), 200 
 
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    print("Starting production server on port 5000...")
+
+    serve(app, host="0.0.0.0", port=5000, threads=4, connection_limit=200)
+
     # app.run(host="0.0.0.0", port=5000, debug=True)
 
 
